@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class ElementView : MonoBehaviour
 {
+    public Vector2Int Position { get; set; }
+
 	#region POOLING
 	public void Get()
 	{
