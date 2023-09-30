@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 55e6dd2ccd6090943a902bedc782bc55, type: 3}
-  m_Name: Element_Fire
+  m_Name: Element_Dirt
   m_EditorClassIdentifier: 
-  type: 2
-  prefab: {fileID: 0}
+  type: 3
+  prefab: {fileID: 3409116420244491000, guid: 07cb56ad495eaef45bcc4251d18688a5, type: 3}

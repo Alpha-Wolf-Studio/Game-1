@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Element_Wind
   m_EditorClassIdentifier: 
   type: 4
-  prefab: {fileID: 0}
+  prefab: {fileID: 3409116420244491000, guid: a2f9f22bda8ddf044818071d537fc59d, type: 3}

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class GameplayController : MonoBehaviour
@@ -7,7 +8,23 @@ public class GameplayController : MonoBehaviour
 
     void Start()
     {
+        Initialization(
+            onSuccess: () =>
+            {
+                StartLevel();
+            });
+    }
+
+    private void Initialization(Action onSuccess = null)
+    {
         playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.CanMoveElement);
         gridElementController.Init();
+
+        onSuccess?.Invoke();
+    }
+
+    private void StartLevel()
+    {
+        gridElementController.SpawnInitialElements();
     }
 }

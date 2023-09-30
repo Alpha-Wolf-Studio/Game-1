@@ -17,6 +17,16 @@ public class ElementView : MonoBehaviour
         this.onGetWorldPosition = onGetWorldPosition;
     }
 
+    public void Spawn()
+    {
+
+    }
+
+    public void SetPosition(Vector2 position)
+    {
+        transform.position = new Vector3(position.x, transform.position.y, position.y);
+    }
+
     #region MOVING
     public void Move(Vector2Int direction, Action onFinishMove = null)
     {
@@ -31,12 +41,12 @@ public class ElementView : MonoBehaviour
 
         while (timer < movingTargetTime)
         {
-            transform.position = Vector2.Lerp(startPosition, endPosition, timer / movingTargetTime);
+            SetPosition(Vector2.Lerp(startPosition, endPosition, timer / movingTargetTime));
 
             yield return null;
         }
 
-        transform.position = Vector2.Lerp(startPosition, endPosition, 1f);
+        SetPosition(Vector2.Lerp(startPosition, endPosition, 1f));
         onFinishMove?.Invoke();
     }
     #endregion

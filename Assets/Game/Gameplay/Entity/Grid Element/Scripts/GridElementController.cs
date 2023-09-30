@@ -5,9 +5,13 @@ using UnityEngine.Pool;
 
 public class GridElementController : MonoBehaviour
 {
+    [SerializeField] private ElementData[] elementsData = null;
+
+    [Header("------GRID CONFIGURATION-------")]
     [SerializeField] private Vector2Int size = Vector2Int.one;
     [SerializeField] private float cellDistance = 0f;
-    [SerializeField] private ElementData[] elementsData = null;
+    [SerializeField] private Transform gridHolder = null;
+    [SerializeField] private Transform poolHolder = null;
 
     private Dictionary<ELEMENT_TYPE, ObjectPool<ElementView>> elementPoolsDict = null;
     private ElementModel[,] gridElements = null;
@@ -37,16 +41,27 @@ public class GridElementController : MonoBehaviour
     #endregion
 
     #region SPAWN
-    private void SpawnInitialElements()
+    public void SpawnInitialElements()
     {
+        //Testing
+        ElementModel element1 = new ElementModel(ELEMENT_TYPE.WATER, new Vector2Int(0, 0));
+        ElementModel element2 = new ElementModel(ELEMENT_TYPE.FIRE, new Vector2Int(1, 0));
+        ElementModel element3 = new ElementModel(ELEMENT_TYPE.WIND, new Vector2Int(0, 1));
+        ElementModel element4 = new ElementModel(ELEMENT_TYPE.DIRT, new Vector2Int(1, 1));
 
+        SpawnElement(element1);
+        SpawnElement(element2);
+        SpawnElement(element3);
+        SpawnElement(element4);
     }
 
-    private void SpawnElement(ELEMENT_TYPE type, Vector2Int position)
+    private void SpawnElement(ElementModel elementModel)
     {
-        gridElements[position.x, position.y] = new ElementModel(type, position);
+        gridElements[elementModel.Position.x, elementModel.Position.y] = elementModel;
 
-        ElementView elementView = elementPoolsDict[type].Get();
+        ElementView elementView = elementPoolsDict[elementModel.Type].Get();
+        elementView.name = string.Format("Element {0} {1}", elementModel.Position.x, elementModel.Position.y); 
+        elementView.SetPosition(GetWorldPosition(elementModel.Position));
     }
     #endregion
 
@@ -72,7 +87,8 @@ public class GridElementController : MonoBehaviour
     #region POOLING
     private ElementView CreateElementPrefab(ELEMENT_TYPE type)
     {
-        ElementView elementView = Instantiate(elementPoolsDict[type].Get()).GetComponent<ElementView>();
+        ElementData elementData = elementsData.ToList().Find(e => e.Type == type);
+        ElementView elementView = Instantiate(elementData.Prefab).GetComponent<ElementView>();
         elementView.Init(GetWorldPosition);
 
         return elementView;
@@ -82,12 +98,16 @@ public class GridElementController : MonoBehaviour
     {
         elementView.Get();
         elementViews.Add(elementView);
+
+        elementView.transform.SetParent(gridHolder);
     }
 
     private void ReleaseElementView(ElementView elementView)
     {
         elementView.Release();
         elementViews.Remove(elementView);
+
+        elementView.transform.SetParent(poolHolder);
     }
 
     private void DestroyElement(ElementView elementView)
