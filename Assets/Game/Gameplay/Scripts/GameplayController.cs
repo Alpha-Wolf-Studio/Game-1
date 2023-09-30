@@ -12,12 +12,13 @@ public class GameplayController : MonoBehaviour
             onSuccess: () =>
             {
                 StartLevel();
+                playerController.ToggleInput(true);
             });
     }
 
     private void Initialization(Action onSuccess = null)
     {
-        playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.CanMoveElement);
+        playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement);
         gridElementController.Init();
 
         onSuccess?.Invoke();

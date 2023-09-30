@@ -8,6 +8,12 @@ public class ElementModel
     public ELEMENT_TYPE Type { get => type; set => type = value; }
     public Vector2Int Position { get => position; set => position = value; }
 
+    public ElementModel(ElementModel model)
+    {
+        type = model.type;
+        position = model.position;
+    }
+
     public ElementModel(ELEMENT_TYPE type, Vector2Int position)
     {
         this.type = type;

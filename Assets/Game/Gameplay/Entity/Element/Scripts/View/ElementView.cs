@@ -32,7 +32,7 @@ public class ElementView : MonoBehaviour
     {
         Position += direction;
 
-        StartCoroutine(MoveAnimation(transform.position, onGetWorldPosition(Position), onFinishMove));
+        StartCoroutine(MoveAnimation(new Vector2(transform.position.x, transform.position.z), onGetWorldPosition(Position), onFinishMove));
     }
 
     private IEnumerator MoveAnimation(Vector2 startPosition, Vector2 endPosition, Action onFinishMove = null)
@@ -42,6 +42,7 @@ public class ElementView : MonoBehaviour
         while (timer < movingTargetTime)
         {
             SetPosition(Vector2.Lerp(startPosition, endPosition, timer / movingTargetTime));
+            timer += Time.deltaTime;
 
             yield return null;
         }

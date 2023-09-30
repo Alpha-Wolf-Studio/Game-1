@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -20,10 +21,10 @@ public class GridElementController : MonoBehaviour
     #region INITIALIZATION
     public void Init()
     {
-        gridElements = new ElementModel[size.x, size.y];
         elementViews = new List<ElementView>();
 
         CreateElementPools();
+        CreateElementModels();
     }
 
     private void CreateElementPools()
@@ -36,6 +37,19 @@ public class GridElementController : MonoBehaviour
             ObjectPool<ElementView> pool = new ObjectPool<ElementView>(createFunc: () => CreateElementPrefab(data.Type), GetElementView, ReleaseElementView, DestroyElement);
 
             elementPoolsDict.Add(data.Type, pool);
+        }
+    }
+
+    private void CreateElementModels()
+    {
+        gridElements = new ElementModel[size.x, size.y];
+
+        for (int i = 0; i < gridElements.GetLength(0); i++)
+        {
+            for (int j = 0; j < gridElements.GetLength(1); j++)
+            {
+                SetEmptyElement(new Vector2Int(i, j));
+            }
         }
     }
     #endregion
@@ -60,17 +74,16 @@ public class GridElementController : MonoBehaviour
         gridElements[elementModel.Position.x, elementModel.Position.y] = elementModel;
 
         ElementView elementView = elementPoolsDict[elementModel.Type].Get();
-        elementView.name = string.Format("Element {0} {1}", elementModel.Position.x, elementModel.Position.y); 
+        elementView.name = string.Format("Element {0} {1}", elementModel.Position.x, elementModel.Position.y);
+        elementView.Position = elementModel.Position;
         elementView.SetPosition(GetWorldPosition(elementModel.Position));
     }
     #endregion
 
     #region AUXILIAR
-    public bool CanMoveElement(Vector2Int originalPos, Vector2Int nextPos)
+    private void SetEmptyElement(Vector2Int pos)
     {
-        ElementModel elem = gridElements[nextPos.x, nextPos.y];
-
-        return elem.Type == ELEMENT_TYPE.EMPTY;
+        gridElements[pos.x, pos.y] = new ElementModel(ELEMENT_TYPE.EMPTY, new Vector2Int(pos.x, pos.y));
     }
 
     public void UpdatePlayerElementMove()
@@ -81,6 +94,31 @@ public class GridElementController : MonoBehaviour
     private Vector2 GetWorldPosition(Vector2Int position)
     {
         return new Vector2(position.x * cellDistance, position.y * cellDistance);
+    }
+    #endregion
+
+    #region MOVING
+    public bool CanMoveElement(Vector2Int originalPos, Vector2Int nextPos)
+    {
+        if (!IsValidPosition(nextPos))
+        {
+            return false;
+        }
+
+        ElementModel elem = gridElements[nextPos.x, nextPos.y];
+
+        return elem.Type == ELEMENT_TYPE.EMPTY;
+    }
+
+    public void MoveElement(Vector2Int originalPos, Vector2Int nextPos)
+    {
+        gridElements[nextPos.x, nextPos.y] = new ElementModel(gridElements[originalPos.x, originalPos.y]);
+        SetEmptyElement(originalPos);
+    }
+
+    private bool IsValidPosition(Vector2Int pos)
+    {
+        return pos.x >= 0 && pos.x < size.x && pos.y >= 0 && pos.y < size.y;
     }
     #endregion
 

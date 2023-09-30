@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private bool inputEnabled = false;
 
     private Action onFinishMove = null;
+    private Action<Vector2Int, Vector2Int> onMoveElement = null;
     private Func<Vector2Int, Vector2Int, bool> onCanMoveElement = null;
 
     private void Update()
@@ -16,9 +17,10 @@ public class PlayerController : MonoBehaviour
         UpdateInputs();
     }
 
-    public void Init(Action onFinishMove, Func<Vector2Int, Vector2Int, bool> onCanMoveElement)
+    public void Init(Action onFinishMove, Action<Vector2Int, Vector2Int> onMoveElement, Func<Vector2Int, Vector2Int, bool> onCanMoveElement)
     {
         this.onFinishMove = onFinishMove;
+        this.onMoveElement = onMoveElement;
         this.onCanMoveElement = onCanMoveElement;
     }
 
@@ -34,10 +36,14 @@ public class PlayerController : MonoBehaviour
 
     private void MoveElement(Vector2Int direction)
     {
-        if (onCanMoveElement(elementSelected.Position, elementSelected.Position + direction))
+        Vector2Int originalPos = elementSelected.Position;
+        Vector2Int nextPos = originalPos + direction;
+
+        if (onCanMoveElement(originalPos, nextPos))
         {
             ToggleInput(false);
 
+            onMoveElement?.Invoke(originalPos, nextPos);
             elementSelected.Move(direction,
                 onFinishMove: () =>
                 {
@@ -82,9 +88,10 @@ public class PlayerController : MonoBehaviour
                     return true;
                 }
             }
+
+            UnselectElement();
         }
 
-        UnselectElement();
         return false;
     }
 
