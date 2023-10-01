@@ -8,11 +8,11 @@ public class ElementView : MonoBehaviour
     [SerializeField] private AnimationCurve curve = null;
     [SerializeField] private float movingTargetTime = 0f;
 
-    private Func<Vector2Int, Vector2> onGetWorldPosition = null;
+    private Func<Vector2Int, Vector3> onGetWorldPosition = null;
 
     public Vector2Int Position { get; set; }
 
-    public void Init(Func<Vector2Int, Vector2> onGetWorldPosition)
+    public void Init(Func<Vector2Int, Vector3> onGetWorldPosition)
     {
         this.onGetWorldPosition = onGetWorldPosition;
     }
@@ -22,33 +22,38 @@ public class ElementView : MonoBehaviour
 
     }
 
-    public void SetPosition(Vector2 position)
+    public void SetPosition(Vector3 position)
     {
-        transform.position = new Vector3(position.x, transform.position.y, position.y);
+        transform.position = position;
     }
 
     #region MOVING
-    public void Move(Vector2Int direction, Action onFinishMove = null)
+    public void Move(Vector2Int nextPos, Action onFinishMove = null)
     {
-        Position += direction;
+        Position = nextPos;
 
-        StartCoroutine(MoveAnimation(new Vector2(transform.position.x, transform.position.z), onGetWorldPosition(Position), onFinishMove));
+        StartCoroutine(MoveAnimation(transform.position, onGetWorldPosition(Position), movingTargetTime, onFinishMove));
     }
 
-    private IEnumerator MoveAnimation(Vector2 startPosition, Vector2 endPosition, Action onFinishMove = null)
+    public void Falling(float targetTime, Action onFinishFall = null)
+    {
+        StartCoroutine(MoveAnimation(transform.position, onGetWorldPosition(Position), targetTime, onFinishFall));
+    }
+
+    private IEnumerator MoveAnimation(Vector3 startPosition, Vector3 endPosition, float targetTime, Action onFinish = null)
     {
         float timer = 0f;
 
-        while (timer < movingTargetTime)
+        while (timer < targetTime)
         {
-            SetPosition(Vector2.Lerp(startPosition, endPosition, timer / movingTargetTime));
+            SetPosition(Vector3.Lerp(startPosition, endPosition, timer / targetTime));
             timer += Time.deltaTime;
 
             yield return null;
         }
 
-        SetPosition(Vector2.Lerp(startPosition, endPosition, 1f));
-        onFinishMove?.Invoke();
+        SetPosition(Vector3.Lerp(startPosition, endPosition, 1f));
+        onFinish?.Invoke();
     }
     #endregion
 

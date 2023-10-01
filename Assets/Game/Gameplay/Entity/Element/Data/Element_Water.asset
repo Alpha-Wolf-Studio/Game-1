@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   prefab: {fileID: 3409116420244491000, guid: 7bb794f387f388949ba03649fd206643, type: 3}
+  canRespawn: 1

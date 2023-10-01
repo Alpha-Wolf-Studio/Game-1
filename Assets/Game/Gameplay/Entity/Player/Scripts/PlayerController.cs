@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
             ToggleInput(false);
 
             onMoveElement?.Invoke(originalPos, nextPos);
-            elementSelected.Move(direction,
+            elementSelected.Move(nextPos,
                 onFinishMove: () =>
                 {
                     ToggleInput(true);

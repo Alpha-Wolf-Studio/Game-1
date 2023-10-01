@@ -199,14 +199,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 352962124}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.13052616, y: 0, z: 0, w: 0.9914449}
+  m_LocalPosition: {x: 0, y: 8, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 15, y: 0, z: 0}
 --- !u!1 &1794622668
 GameObject:
   m_ObjectHideFlags: 0
@@ -520,6 +520,74 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e9f3c2294fa5744798e972743b2896e, type: 3}
+--- !u!1001 &6127322837511105352
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2333327912255117041, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495187077850966779, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+      propertyPath: m_Name
+      value: Spawn Random Elements Handler
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+--- !u!114 &6127322837511105353 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2770109022580159502, guid: cad96c763bc1ccf44b33c0549249e8a5, type: 3}
+  m_PrefabInstance: {fileID: 6127322837511105352}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f64ed45910d2d5a4182977771328c3ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7747050391056367297
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -575,5 +643,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Grid Element Controller
       objectReference: {fileID: 0}
+    - target: {fileID: 7050365713949414204, guid: cc1371b1e52599549ab94545298678c2, type: 3}
+      propertyPath: spawnRandomElementsHandler
+      value: 
+      objectReference: {fileID: 6127322837511105353}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cc1371b1e52599549ab94545298678c2, type: 3}

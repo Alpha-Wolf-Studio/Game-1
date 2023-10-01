@@ -1,12 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
+
 using UnityEngine;
 using UnityEngine.Pool;
 
 public class GridElementController : MonoBehaviour
 {
     [SerializeField] private ElementData[] elementsData = null;
+    [SerializeField] private SpawnRandomElementsHandler spawnRandomElementsHandler = null;
 
     [Header("------GRID CONFIGURATION-------")]
     [SerializeField] private Vector2Int size = Vector2Int.one;
@@ -25,6 +27,7 @@ public class GridElementController : MonoBehaviour
 
         CreateElementPools();
         CreateElementModels();
+        InitSpawnRandomElementsHandler();
     }
 
     private void CreateElementPools()
@@ -52,6 +55,17 @@ public class GridElementController : MonoBehaviour
             }
         }
     }
+
+    private void InitSpawnRandomElementsHandler()
+    {
+        ElementData[] respawnElements = elementsData.Where(e => e.CanRespawn).ToArray();
+        spawnRandomElementsHandler.Init(respawnElements, GetElementsWithCondition,
+            onSpawnElement: (elementModel) =>
+            {
+                return SpawnElement(elementModel, true);
+            },
+            GetWorldPosition);
+    }
     #endregion
 
     #region SPAWN
@@ -69,14 +83,20 @@ public class GridElementController : MonoBehaviour
         SpawnElement(element4);
     }
 
-    private void SpawnElement(ElementModel elementModel)
+    private ElementView SpawnElement(ElementModel elementModel, bool respawn = false)
     {
         gridElements[elementModel.Position.x, elementModel.Position.y] = elementModel;
 
         ElementView elementView = elementPoolsDict[elementModel.Type].Get();
         elementView.name = string.Format("Element {0} {1}", elementModel.Position.x, elementModel.Position.y);
         elementView.Position = elementModel.Position;
-        elementView.SetPosition(GetWorldPosition(elementModel.Position));
+
+        if (!respawn)
+        {
+            elementView.SetPosition(GetWorldPosition(elementModel.Position));
+        }
+
+        return elementView;
     }
     #endregion
 
@@ -91,9 +111,29 @@ public class GridElementController : MonoBehaviour
 
     }
 
-    private Vector2 GetWorldPosition(Vector2Int position)
+    private Vector3 GetWorldPosition(Vector2Int position)
     {
-        return new Vector2(position.x * cellDistance, position.y * cellDistance);
+        return new Vector3(position.x * cellDistance, 0f, position.y * cellDistance);
+    }
+
+    private List<ElementModel> GetElementsWithCondition(Predicate<ElementModel> condition)
+    {
+        List<ElementModel> elements = new List<ElementModel>();
+
+        for (int i = 0; i < gridElements.GetLength(0); i++)
+        {
+            for (int j = 0; j < gridElements.GetLength(1); j++)
+            {
+                ElementModel element = gridElements[i, j];
+
+                if (condition == null || condition(element))
+                {
+                    elements.Add(element);
+                }
+            }
+        }
+
+        return elements;
     }
     #endregion
 
