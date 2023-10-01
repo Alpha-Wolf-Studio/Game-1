@@ -7,8 +7,14 @@ public class ElementView : MonoBehaviour
 {
     [SerializeField] private AnimationCurve curve = null;
     [SerializeField] private float movingTargetTime = 0f;
+    [SerializeField] private float moveDelay = 0f;
+    [SerializeField] private Animator animator = null;
 
     private Func<Vector2Int, Vector3> onGetWorldPosition = null;
+
+    private readonly int startJumpKey = Animator.StringToHash("start_jump");
+    private readonly int loopJumpKey = Animator.StringToHash("loop_jump");
+    private readonly int endJumpKey = Animator.StringToHash("end_jump");
 
     public Vector2Int Position { get; set; }
 
@@ -32,17 +38,21 @@ public class ElementView : MonoBehaviour
     {
         Position = nextPos;
 
-        StartCoroutine(MoveAnimation(transform.position, onGetWorldPosition(Position), movingTargetTime, onFinishMove));
+        animator?.SetTrigger(startJumpKey);
+        StartCoroutine(MoveAnimation(transform.position, onGetWorldPosition(Position), movingTargetTime, moveDelay, onFinish: onFinishMove));
     }
 
     public void Falling(float targetTime, Action onFinishFall = null)
     {
-        StartCoroutine(MoveAnimation(transform.position, onGetWorldPosition(Position), targetTime, onFinishFall));
+        animator?.SetTrigger(loopJumpKey);
+        StartCoroutine(MoveAnimation(transform.position, onGetWorldPosition(Position), targetTime, onFinish: onFinishFall));
     }
 
-    private IEnumerator MoveAnimation(Vector3 startPosition, Vector3 endPosition, float targetTime, Action onFinish = null)
+    private IEnumerator MoveAnimation(Vector3 startPosition, Vector3 endPosition, float targetTime, float delay = 0f, Action onFinish = null)
     {
         float timer = 0f;
+
+        yield return new WaitForSeconds(delay);
 
         while (timer < targetTime)
         {
@@ -53,6 +63,8 @@ public class ElementView : MonoBehaviour
         }
 
         SetPosition(Vector3.Lerp(startPosition, endPosition, 1f));
+        animator?.SetTrigger(endJumpKey);
+
         onFinish?.Invoke();
     }
     #endregion

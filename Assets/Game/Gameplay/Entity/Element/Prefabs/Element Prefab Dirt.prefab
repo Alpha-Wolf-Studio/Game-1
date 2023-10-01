@@ -57,6 +57,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e69a68d4c667284cb0db3dbb916902a, type: 3}
+--- !u!1 &1324672278113220256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8e69a68d4c667284cb0db3dbb916902a, type: 3}
+  m_PrefabInstance: {fileID: 2207687109764172785}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1246941630331139299
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1324672278113220256}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 73003367ce649134181d2097e2d5fda5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &3089307669703095514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -64,6 +89,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 313219095302118593, guid: cb711facaba45b941818ca5a38242453, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1246941630331139299}
     - target: {fileID: 401086067540049442, guid: cb711facaba45b941818ca5a38242453, type: 3}
       propertyPath: m_Name
       value: Element Prefab Dirt

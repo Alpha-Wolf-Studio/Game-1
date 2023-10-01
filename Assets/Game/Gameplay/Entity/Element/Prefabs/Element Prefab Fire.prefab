@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 313219095302118593, guid: cb711facaba45b941818ca5a38242453, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 683041528940509433}
     - target: {fileID: 401086067540049442, guid: cb711facaba45b941818ca5a38242453, type: 3}
       propertyPath: m_Name
       value: Element Prefab Fire
@@ -119,3 +123,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 438fbaa853af2534caec81e1b7e7e080, type: 3}
+--- !u!1 &5342119732881966177 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 438fbaa853af2534caec81e1b7e7e080, type: 3}
+  m_PrefabInstance: {fileID: 5107763975396129072}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &683041528940509433
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5342119732881966177}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 975d269fbd4b28243b0e5da4772c1164, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
