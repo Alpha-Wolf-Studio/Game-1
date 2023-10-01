@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e6dd2ccd6090943a902bedc782bc55, type: 3}
   m_Name: Element_Powered_Water
   m_EditorClassIdentifier: 
-  type: 6
+  type: 5
   prefab: {fileID: 0}
   canRespawn: 0
   combinations:
+  - element2: 2
+    result: 1
   - element2: 3
-    result: 2
-  - element2: 4
-    result: 2
-  - element2: 1
-    result: 6
+    result: 1
+  - element2: 0
+    result: 5

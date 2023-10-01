@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e6dd2ccd6090943a902bedc782bc55, type: 3}
   m_Name: Element_Cyclone
   m_EditorClassIdentifier: 
-  type: 11
+  type: 10
   prefab: {fileID: 0}
   canRespawn: 0
   combinations:
-  - element2: 7
-    result: 1
-  - element2: 1
-    result: 11
+  - element2: 6
+    result: 0
+  - element2: 0
+    result: 10

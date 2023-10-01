@@ -47,8 +47,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementsData:
+  - {fileID: 11400000, guid: e731e020ac0ed574ba1e09077a70cb63, type: 2}
   - {fileID: 11400000, guid: acad0a948022a694a844e4e745886da5, type: 2}
   - {fileID: 11400000, guid: 39d24e6796302de42bfb5403887d8fa7, type: 2}
+  - {fileID: 11400000, guid: 3865d8e61a33135428becd264fbc5a46, type: 2}
+  - {fileID: 11400000, guid: 53ebe7afba37a7e45917b68e30214aef, type: 2}
+  - {fileID: 11400000, guid: 3ea0ef6f9d00abe40aa2c63811e7b70b, type: 2}
+  - {fileID: 11400000, guid: baf65e0ca2a29744a89b973bede058ce, type: 2}
+  - {fileID: 11400000, guid: 216960082fe0cc040b8056f4fb1f2bba, type: 2}
   - {fileID: 11400000, guid: 6e01cb6c846b79449b97b5295f8c098d, type: 2}
   - {fileID: 11400000, guid: e07dcc4f5a76e1241a1f38945e30f8e1, type: 2}
   spawnRandomElementsHandler: {fileID: 0}
@@ -56,6 +62,8 @@ MonoBehaviour:
   cellDistance: 2
   gridHolder: {fileID: 5515122966866431310}
   poolHolder: {fileID: 4444062788227172452}
+  applyOverride: 0
+  overrideJsonLevel: {fileID: 0}
 --- !u!1 &2285723994477374379
 GameObject:
   m_ObjectHideFlags: 0

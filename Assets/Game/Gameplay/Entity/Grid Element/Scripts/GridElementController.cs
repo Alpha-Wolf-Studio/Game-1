@@ -178,12 +178,12 @@ public class GridElementController : MonoBehaviour
     #region MOVING
     public bool CanMoveElement(Vector2Int originalPos, Vector2Int nextPos)
     {
-        return (IsValidPosition(nextPos) && GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[originalPos.x, originalPos.y].Type) != ELEMENT_TYPE.INVALID);
+        return (IsValidPosition(nextPos) && GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[nextPos.x, nextPos.y].Type) != ELEMENT_TYPE.INVALID);
     }
 
     public void MoveElement(Vector2Int originalPos, Vector2Int nextPos)
     {
-        gridElements[nextPos.x, nextPos.y] = new ElementModel(GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[originalPos.x, originalPos.y].Type), new Vector2Int(nextPos.x, nextPos.y));
+        gridElements[nextPos.x, nextPos.y] = new ElementModel(GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[nextPos.x, nextPos.y].Type), new Vector2Int(nextPos.x, nextPos.y));
         SetEmptyElement(originalPos);
     }
 

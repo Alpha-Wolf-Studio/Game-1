@@ -4,10 +4,8 @@ using System.Runtime.Serialization;
 [Serializable]
 public enum ELEMENT_TYPE
 {
-    [EnumMember(Value = "Invalid")]
-    INVALID = -1,
     [EnumMember(Value = "Empty")]
-    EMPTY = 0,
+    EMPTY,
     [EnumMember(Value = "water")]
     water,
     [EnumMember(Value = "fire")]
@@ -27,5 +25,7 @@ public enum ELEMENT_TYPE
     [EnumMember(Value = "Lava")]
     LAVA,
     [EnumMember(Value = "Cyclone")]
-    CYCLONE
+    CYCLONE,
+    [EnumMember(Value = "Invalid")]
+    INVALID
 }

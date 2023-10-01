@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e6dd2ccd6090943a902bedc782bc55, type: 3}
   m_Name: Element_Lava
   m_EditorClassIdentifier: 
-  type: 10
+  type: 9
   prefab: {fileID: 0}
   canRespawn: 0
   combinations:
-  - element2: 6
-    result: 1
-  - element2: 1
-    result: 10
+  - element2: 5
+    result: 0
+  - element2: 0
+    result: 9

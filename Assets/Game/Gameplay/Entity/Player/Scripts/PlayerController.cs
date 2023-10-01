@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
 
     private bool TrySelectElement(out ElementView view)
     {
-        view = null;
+        view = elementSelected;
 
         if (Input.GetMouseButtonDown(0))
         {
