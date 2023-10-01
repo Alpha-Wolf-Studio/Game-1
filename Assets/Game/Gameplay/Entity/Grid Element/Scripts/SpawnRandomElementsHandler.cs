@@ -15,6 +15,7 @@ public class SpawnRandomElementsHandler : MonoBehaviour
     private Func<Predicate<ElementModel>, List<ElementModel>> onGetElementsWithCondition = null;
     private Func<ElementModel, ElementView> onSpawnElement = null;
     private Func<Vector2Int, Vector3> onGetWorldPosition = null;
+    private Action onCheckGridStatus = null;
 
     private bool startTimer = false;
     private float timer = 0f;
@@ -24,14 +25,21 @@ public class SpawnRandomElementsHandler : MonoBehaviour
         UpdateRespawnTimer();
     }
 
-    public void Init(ElementData[] respawnElements, Func<Predicate<ElementModel>, List<ElementModel>> onGetElementsWithCondition, Func<ElementModel, ElementView> onSpawnElement, Func<Vector2Int, Vector3> onGetWorldPosition)
+    public void Init(ElementData[] respawnElements, Func<Predicate<ElementModel>, List<ElementModel>> onGetElementsWithCondition, 
+        Func<ElementModel, ElementView> onSpawnElement, Func<Vector2Int, Vector3> onGetWorldPosition, Action onCheckGridStatus)
     {
         this.respawnElements = respawnElements;
         this.onGetElementsWithCondition = onGetElementsWithCondition;
         this.onSpawnElement = onSpawnElement;
         this.onGetWorldPosition = onGetWorldPosition;
+        this.onCheckGridStatus = onCheckGridStatus;
 
         startTimer = true;
+    }
+
+    public void ToggleTimer(bool status)
+    {
+        startTimer = status;
     }
 
     private void UpdateRespawnTimer()
@@ -44,7 +52,7 @@ public class SpawnRandomElementsHandler : MonoBehaviour
         timer += Time.deltaTime;
         if (timer > respawnTimeTarget)
         {
-            startTimer = false;
+            ToggleTimer(false);
 
             RespawnElements();
             RestartRespawnTimer();
@@ -54,7 +62,7 @@ public class SpawnRandomElementsHandler : MonoBehaviour
     private void RestartRespawnTimer()
     {
         timer = 0f;
-        startTimer = true;
+        ToggleTimer(true);
     }
 
     private void RespawnElements()
@@ -69,7 +77,7 @@ public class SpawnRandomElementsHandler : MonoBehaviour
         {
             if (elementsToReplace.Count == 0)
             {
-                return;
+                break;
             }
 
             int randomIndex = UnityEngine.Random.Range(0, elementsToReplace.Count);
@@ -86,5 +94,7 @@ public class SpawnRandomElementsHandler : MonoBehaviour
 
             elementsToReplace.Remove(element);
         }
+
+        onCheckGridStatus?.Invoke();
     }
 }

@@ -6,6 +6,8 @@ public class GameplayController : MonoBehaviour
     [SerializeField] private PlayerController playerController = null;
     [SerializeField] private GridElementController gridElementController = null;
 
+    private bool endLevel = false;
+
     void Start()
     {
         Initialization(
@@ -19,7 +21,7 @@ public class GameplayController : MonoBehaviour
     private void Initialization(Action onSuccess = null)
     {
         playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement);
-        gridElementController.Init();
+        gridElementController.Init(FinishLevel);
 
         onSuccess?.Invoke();
     }
@@ -27,5 +29,16 @@ public class GameplayController : MonoBehaviour
     private void StartLevel()
     {
         gridElementController.StartLevel(null);
+    }
+
+    private void FinishLevel(bool win)
+    {
+        if (endLevel)
+        {
+            return;
+        }
+
+        endLevel = true;
+        playerController.ToggleInput(false);
     }
 }

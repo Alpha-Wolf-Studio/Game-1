@@ -1,10 +1,11 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 using UnityEngine;
 using UnityEngine.Pool;
+
+using Newtonsoft.Json;
 
 public class GridElementController : MonoBehaviour
 {
@@ -25,10 +26,14 @@ public class GridElementController : MonoBehaviour
     private ElementModel[,] gridElements = null;
     private List<ElementView> elementViews = null;
 
+    private Action<bool> onFinishLevel = null;
+
     #region INITIALIZATION
-    public void Init()
+    public void Init(Action<bool> onFinishLevel)
     {
         elementViews = new List<ElementView>();
+
+        this.onFinishLevel = onFinishLevel;
 
         CreateElementPools();
         CreateElementModels();
@@ -69,7 +74,7 @@ public class GridElementController : MonoBehaviour
             {
                 return SpawnElement(elementModel, true);
             },
-            GetWorldPosition);
+            GetWorldPosition, CheckGridStatus);
     }
     #endregion
 
@@ -123,12 +128,12 @@ public class GridElementController : MonoBehaviour
     #region AUXILIAR
     private void SetEmptyElement(Vector2Int pos)
     {
-        gridElements[pos.x, pos.y] = new ElementModel(ELEMENT_TYPE.EMPTY, new Vector2Int(pos.x, pos.y));
+        SetElement(ELEMENT_TYPE.EMPTY, new Vector2Int(pos.x, pos.y));
     }
 
     public void UpdatePlayerElementMove()
     {
-
+        CheckGridStatus();
     }
 
     private Vector3 GetWorldPosition(Vector2Int position)
@@ -173,6 +178,31 @@ public class GridElementController : MonoBehaviour
         }
         return ELEMENT_TYPE.INVALID;
     }
+
+    private void CheckGridStatus()
+    {
+        List<ElementModel> elements = GetElementsWithCondition(
+            condition: (element) =>
+            {
+                return element.Type == ELEMENT_TYPE.EMPTY || element.Type == ELEMENT_TYPE.INVALID;
+            });
+
+        if (elements.Count == 0)
+        {
+            EndLevel(false);
+        }
+    }
+
+    private void EndLevel(bool winPlayer)
+    {
+        onFinishLevel?.Invoke(winPlayer);
+        spawnRandomElementsHandler.ToggleTimer(false);
+    }
+
+    private void SetElement(ELEMENT_TYPE type, Vector2Int pos)
+    {
+        gridElements[pos.x, pos.y] = new ElementModel(type, pos);
+    }
     #endregion
 
     #region MOVING
@@ -183,7 +213,7 @@ public class GridElementController : MonoBehaviour
 
     public void MoveElement(Vector2Int originalPos, Vector2Int nextPos)
     {
-        gridElements[nextPos.x, nextPos.y] = new ElementModel(GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[nextPos.x, nextPos.y].Type), new Vector2Int(nextPos.x, nextPos.y));
+        SetElement(GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[nextPos.x, nextPos.y].Type), new Vector2Int(nextPos.x, nextPos.y));
         SetEmptyElement(originalPos);
     }
 
