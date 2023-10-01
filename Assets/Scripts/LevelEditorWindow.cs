@@ -158,7 +158,7 @@ namespace ElementMerge
                 json = reader.ReadToEnd();
             }
 
-            levelData.tileList = JSONDeserialize<List<Tile>>(json);
+            levelData = JSONDeserialize<LevelData>(json);
 
             //Debug.Log("El archivo json contiene: " + json);
 
