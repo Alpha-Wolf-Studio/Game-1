@@ -5,9 +5,9 @@ using System.Runtime.Serialization;
 public enum ELEMENT_TYPE
 {
     [EnumMember(Value = "Invalid")]
-    INVALID,
+    INVALID = -1,
     [EnumMember(Value = "Empty")]
-    EMPTY,
+    EMPTY = 0,
     [EnumMember(Value = "water")]
     water,
     [EnumMember(Value = "fire")]

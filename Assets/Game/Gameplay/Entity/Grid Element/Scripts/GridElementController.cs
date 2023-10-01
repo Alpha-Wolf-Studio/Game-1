@@ -178,7 +178,7 @@ public class GridElementController : MonoBehaviour
     #region MOVING
     public bool CanMoveElement(Vector2Int originalPos, Vector2Int nextPos)
     {
-        return (!IsValidPosition(nextPos) && GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[originalPos.x, originalPos.y].Type) == ELEMENT_TYPE.INVALID);
+        return (IsValidPosition(nextPos) && GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[originalPos.x, originalPos.y].Type) != ELEMENT_TYPE.INVALID);
     }
 
     public void MoveElement(Vector2Int originalPos, Vector2Int nextPos)
