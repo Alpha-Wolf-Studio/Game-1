@@ -10,6 +10,7 @@ public class ElementView : MonoBehaviour
     [SerializeField] private float moveDelay = 0f;
     [SerializeField] private float endJumpDelay = 0f;
     [SerializeField] private Animator animator = null;
+    [SerializeField] private ParticleSystem despawnParticle = null;
 
     private Func<Vector2Int, Vector3> onGetWorldPosition = null;
 
@@ -27,6 +28,11 @@ public class ElementView : MonoBehaviour
     public void Spawn()
     {
 
+    }
+
+    public void Despawn()
+    {
+        despawnParticle.Play();
     }
 
     public void SetPosition(Vector3 position)
