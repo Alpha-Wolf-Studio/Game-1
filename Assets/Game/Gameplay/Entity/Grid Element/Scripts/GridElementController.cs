@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,10 @@ public class GridElementController : MonoBehaviour
     [SerializeField] private float cellDistance = 0f;
     [SerializeField] private Transform gridHolder = null;
     [SerializeField] private Transform poolHolder = null;
+
+    [Header("------TESTING-------")]
+    [SerializeField] private bool applyOverride = false;
+    [SerializeField] private TextAsset overrideJsonLevel = null;
 
     private Dictionary<ELEMENT_TYPE, ObjectPool<ElementView>> elementPoolsDict = null;
     private ElementModel[,] gridElements = null;
@@ -69,18 +74,33 @@ public class GridElementController : MonoBehaviour
     #endregion
 
     #region SPAWN
-    public void SpawnInitialElements()
+    public void StartLevel(string jsonLevel)
     {
-        //Testing
-        ElementModel element1 = new ElementModel(ELEMENT_TYPE.WATER, new Vector2Int(0, 0));
-        ElementModel element2 = new ElementModel(ELEMENT_TYPE.FIRE, new Vector2Int(1, 0));
-        ElementModel element3 = new ElementModel(ELEMENT_TYPE.WIND, new Vector2Int(0, 1));
-        ElementModel element4 = new ElementModel(ELEMENT_TYPE.DIRT, new Vector2Int(1, 1));
+        if (applyOverride)
+        {
+            LoadLevel(overrideJsonLevel.text);
+            return;
+        }
 
-        SpawnElement(element1);
-        SpawnElement(element2);
-        SpawnElement(element3);
-        SpawnElement(element4);
+        LoadLevel(jsonLevel);
+    }
+
+    private void LoadLevel(string jsonLevel)
+    {
+        LevelData level = JsonConvert.DeserializeObject<LevelData>(jsonLevel);
+
+        for (int i = 0; i < level.tileList.Count; i++)
+        {
+            ELEMENT_TYPE elementType = level.tileList[i].element;
+
+            if (elementType != ELEMENT_TYPE.EMPTY)
+            {
+                Vector2Int pos = level.tileList[i].gridPos;
+                ElementModel spawnElement = new ElementModel(elementType, pos);
+
+                SpawnElement(spawnElement);
+            }
+        }
     }
 
     private ElementView SpawnElement(ElementModel elementModel, bool respawn = false)

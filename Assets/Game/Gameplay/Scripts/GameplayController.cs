@@ -26,6 +26,6 @@ public class GameplayController : MonoBehaviour
 
     private void StartLevel()
     {
-        gridElementController.SpawnInitialElements();
+        gridElementController.StartLevel(null);
     }
 }

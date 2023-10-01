@@ -732,6 +732,14 @@ PrefabInstance:
       value: Grid Element Controller
       objectReference: {fileID: 0}
     - target: {fileID: 7050365713949414204, guid: cc1371b1e52599549ab94545298678c2, type: 3}
+      propertyPath: applyOverride
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050365713949414204, guid: cc1371b1e52599549ab94545298678c2, type: 3}
+      propertyPath: overrideJsonLevel
+      value: 
+      objectReference: {fileID: 4900000, guid: 12ed1e95b783930489c4d1570a1c8f6e, type: 3}
+    - target: {fileID: 7050365713949414204, guid: cc1371b1e52599549ab94545298678c2, type: 3}
       propertyPath: spawnRandomElementsHandler
       value: 
       objectReference: {fileID: 6127322837511105353}
