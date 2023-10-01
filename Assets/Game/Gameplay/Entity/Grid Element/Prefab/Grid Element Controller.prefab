@@ -62,6 +62,7 @@ MonoBehaviour:
   cellDistance: 2
   gridHolder: {fileID: 5515122966866431310}
   poolHolder: {fileID: 4444062788227172452}
+  tilePrefab: {fileID: 919132149155446097, guid: c674886d29f65a34aab65372a303d7d0, type: 3}
   applyOverride: 0
   overrideJsonLevel: {fileID: 0}
 --- !u!1 &2285723994477374379

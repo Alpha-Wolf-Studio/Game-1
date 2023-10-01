@@ -17,6 +17,7 @@ public class GridElementController : MonoBehaviour
     [SerializeField] private float cellDistance = 0f;
     [SerializeField] private Transform gridHolder = null;
     [SerializeField] private Transform poolHolder = null;
+    [SerializeField] private GameObject tilePrefab;
 
     [Header("------TESTING-------")]
     [SerializeField] private bool applyOverride = false;
@@ -37,6 +38,7 @@ public class GridElementController : MonoBehaviour
 
         CreateElementPools();
         CreateElementModels();
+        CreateTilesModels();
         InitSpawnRandomElementsHandler();
     }
 
@@ -62,6 +64,17 @@ public class GridElementController : MonoBehaviour
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
                 SetEmptyElement(new Vector2Int(i, j));
+            }
+        }
+    }
+
+    private void CreateTilesModels()
+    {
+        for (int i = 0; i < gridElements.GetLength(0); i++)
+        {
+            for (int j = 0; j < gridElements.GetLength(1); j++)
+            {
+                Instantiate(tilePrefab, new Vector3(i*2, 0, j*2),Quaternion.identity);
             }
         }
     }
