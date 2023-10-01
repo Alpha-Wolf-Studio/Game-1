@@ -8,6 +8,7 @@ public class ElementView : MonoBehaviour
     [SerializeField] private AnimationCurve curve = null;
     [SerializeField] private float movingTargetTime = 0f;
     [SerializeField] private float moveDelay = 0f;
+    [SerializeField] private float endJumpDelay = 0f;
     [SerializeField] private Animator animator = null;
 
     private Func<Vector2Int, Vector3> onGetWorldPosition = null;
@@ -64,6 +65,8 @@ public class ElementView : MonoBehaviour
 
         SetPosition(Vector3.Lerp(startPosition, endPosition, 1f));
         animator?.SetTrigger(endJumpKey);
+
+        yield return new WaitForSeconds(endJumpDelay);
 
         onFinish?.Invoke();
     }

@@ -71,6 +71,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   movingTargetTime: 0.5
   moveDelay: 0.25
+  endJumpDelay: 0.15
   animator: {fileID: 0}
 --- !u!135 &7333881651072584912
 SphereCollider:
