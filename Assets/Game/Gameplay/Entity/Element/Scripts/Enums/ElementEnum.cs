@@ -4,6 +4,8 @@ using System.Runtime.Serialization;
 [Serializable]
 public enum ELEMENT_TYPE
 {
+    [EnumMember(Value = "Invalid")]
+    INVALID,
     [EnumMember(Value = "Empty")]
     EMPTY,
     [EnumMember(Value = "water")]

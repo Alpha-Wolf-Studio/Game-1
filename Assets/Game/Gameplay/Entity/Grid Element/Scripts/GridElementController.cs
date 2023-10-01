@@ -155,24 +155,35 @@ public class GridElementController : MonoBehaviour
 
         return elements;
     }
+
+    public ELEMENT_TYPE GetResultOfCombination(ELEMENT_TYPE elementHandled, ELEMENT_TYPE elementToMerge)
+    {
+        foreach (ElementData data in elementsData)
+        {
+            if (data.Type == elementHandled)
+            {
+                foreach (ElementCombination combination in data.Combinations)
+                {
+                    if (elementToMerge == combination.element2)
+                    {
+                        return combination.result;
+                    }
+                }
+            }
+        }
+        return ELEMENT_TYPE.INVALID;
+    }
     #endregion
 
     #region MOVING
     public bool CanMoveElement(Vector2Int originalPos, Vector2Int nextPos)
     {
-        if (!IsValidPosition(nextPos))
-        {
-            return false;
-        }
-
-        ElementModel elem = gridElements[nextPos.x, nextPos.y];
-
-        return elem.Type == ELEMENT_TYPE.EMPTY;
+        return (!IsValidPosition(nextPos) && GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[originalPos.x, originalPos.y].Type) == ELEMENT_TYPE.INVALID);
     }
 
     public void MoveElement(Vector2Int originalPos, Vector2Int nextPos)
     {
-        gridElements[nextPos.x, nextPos.y] = new ElementModel(gridElements[originalPos.x, originalPos.y]);
+        gridElements[nextPos.x, nextPos.y] = new ElementModel(GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[originalPos.x, originalPos.y].Type), new Vector2Int(nextPos.x, nextPos.y));
         SetEmptyElement(originalPos);
     }
 

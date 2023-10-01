@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e6dd2ccd6090943a902bedc782bc55, type: 3}
   m_Name: Element_Wind
   m_EditorClassIdentifier: 
-  type: 4
+  type: 5
   prefab: {fileID: 3409116420244491000, guid: a2f9f22bda8ddf044818071d537fc59d, type: 3}
   canRespawn: 1
+  combinations:
+  - element2: 5
+    result: 9
+  - element2: 3
+    result: 1
+  - element2: 4
+    result: 1
+  - element2: 2
+    result: 11
+  - element2: 1
+    result: 5

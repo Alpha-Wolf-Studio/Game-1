@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e6dd2ccd6090943a902bedc782bc55, type: 3}
   m_Name: Element_Fire
   m_EditorClassIdentifier: 
-  type: 2
+  type: 3
   prefab: {fileID: 3409116420244491000, guid: 9a3fdacbfdbd6a245ad281f9efafd646, type: 3}
   canRespawn: 1
+  combinations:
+  - element2: 5
+    result: 1
+  - element2: 2
+    result: 1
+  - element2: 3
+    result: 7
+  - element2: 4
+    result: 10
+  - element2: 1
+    result: 3
