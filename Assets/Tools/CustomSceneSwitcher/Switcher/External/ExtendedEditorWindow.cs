@@ -1,8 +1,12 @@
 using System;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace CustomSceneSwitcher.Switcher.External
 {
+#if UNITY_EDITOR
     public class ExtendedEditorWindow : EditorWindow
     {
         protected SerializedProperty CurrentProperty;
@@ -36,6 +40,6 @@ namespace CustomSceneSwitcher.Switcher.External
                 }
             }
         }
-        
     }
+#endif
 }

@@ -51,8 +51,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 39d24e6796302de42bfb5403887d8fa7, type: 2}
   - {fileID: 11400000, guid: 6e01cb6c846b79449b97b5295f8c098d, type: 2}
   - {fileID: 11400000, guid: e07dcc4f5a76e1241a1f38945e30f8e1, type: 2}
+  spawnRandomElementsHandler: {fileID: 0}
   size: {x: 9, y: 9}
-  cellDistance: 5
+  cellDistance: 2
   gridHolder: {fileID: 5515122966866431310}
   poolHolder: {fileID: 4444062788227172452}
 --- !u!1 &2285723994477374379
