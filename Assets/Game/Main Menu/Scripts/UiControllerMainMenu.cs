@@ -38,6 +38,6 @@ public class UiControllerMainMenu : MonoBehaviour
     private void OnPlayButtonClicked () => onPlayButtonClicked?.Invoke();
     private void OnSettingsButtonClicked () => onSettingsButtonClicked?.Invoke();
     private void OnCreditsButtonClicked () => onCreditsButtonClicked?.Invoke();
-    private void OnGame1ButtonClicked () => Application.OpenURL("");
-    private void OnGame2ButtonClicked() => Application.OpenURL("");
+    private void OnGame1ButtonClicked () => Application.OpenURL("https://ldjam.com/events/ludum-dare/54/$371819");
+    private void OnGame2ButtonClicked() => Application.OpenURL("https://ldjam.com/events/ludum-dare/54/$371817");
 }
