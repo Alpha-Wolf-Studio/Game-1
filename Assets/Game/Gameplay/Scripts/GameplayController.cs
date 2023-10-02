@@ -39,9 +39,14 @@ public class GameplayController : MonoBehaviour
         if (applyOverride)
         {
             currentLevel = JsonConvert.DeserializeObject<LevelData>(overrideJsonLevel.text);
-
-            targetTime = currentLevel.levelTime;
         }
+        else
+        {
+            int selectedLevelIndex = SceneManager.Instance.selectedLevel;
+            currentLevel = JsonConvert.DeserializeObject<LevelData>(jsonLevels[selectedLevelIndex].text);
+        }
+
+        targetTime = currentLevel.levelTime;
 
         gridElementController.Init(currentLevel, playerController, FinishLevel);
         playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement, IsEndLevel);

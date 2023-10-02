@@ -14,15 +14,15 @@ namespace CustomSceneSwitcher.Examples.Scripts
 
         private void Start()
         {
-            changeSceneButton.onClick.AddListener(ChangeScene);
+            changeSceneButton?.onClick.AddListener(ChangeScene);
         }
 
         private void OnDestroy()
         {
-            changeSceneButton.onClick.RemoveListener(ChangeScene);
+            changeSceneButton?.onClick.RemoveListener(ChangeScene);
         }
 
-        private void ChangeScene()
+        public void ChangeScene()
         {
             SceneSwitcher.ChangeScene(sceneChangeData);
         }

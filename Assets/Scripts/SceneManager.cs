@@ -1,4 +1,5 @@
 using System.Collections;
+
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -8,9 +9,11 @@ public class SceneManager : MonoBehaviourSingleton<SceneManager>
     [SerializeField] float minTimeToLoadScene = 1f;
     [SerializeField] float timeBeforeSceneChange = 1f;
     [FormerlySerializedAs("uI_LoadingScreen")] [SerializeField] UIScreenLoading uiScreenLoading = null;
+
     public GameObject imageHead;
     public Image blackImage;
     public bool showImage = true;
+    public int selectedLevel = 1;
 
     public void LoadSceneAsync(string sceneName, string textInBetween = "", float textSize = 24f, bool useLoadBar = false, RoboFaces roboFace = RoboFaces.None)
     {
