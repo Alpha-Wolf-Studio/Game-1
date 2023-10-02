@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Element_Lava
   m_EditorClassIdentifier: 
   type: 9
-  prefab: {fileID: 0}
+  prefab: {fileID: 9102575442381542920, guid: d0c622694e4a346418385c125c8675f3, type: 3}
   canRespawn: 0
   combinations:
   - element2: 5

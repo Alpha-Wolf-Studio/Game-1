@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Element_Powered_Water
   m_EditorClassIdentifier: 
   type: 5
-  prefab: {fileID: 0}
+  prefab: {fileID: 6750323235639845033, guid: a43757bc9f29a7d418226d8dceb1bfe5, type: 3}
   canRespawn: 0
   combinations:
   - element2: 2

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Element_Powered_Fire
   m_EditorClassIdentifier: 
   type: 6
-  prefab: {fileID: 0}
+  prefab: {fileID: 1952385712887142785, guid: 2968afc3f6b7bb743a18277e6617d9b1, type: 3}
   canRespawn: 0
   combinations:
   - element2: 1

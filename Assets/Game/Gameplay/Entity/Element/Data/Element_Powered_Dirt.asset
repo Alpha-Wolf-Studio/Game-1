@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Element_Powered_Dirt
   m_EditorClassIdentifier: 
   type: 7
-  prefab: {fileID: 0}
+  prefab: {fileID: 4055241979012752385, guid: 6e99ff8a6f1bf094391504592f4beb26, type: 3}
   canRespawn: 0
   combinations:
   - element2: 1

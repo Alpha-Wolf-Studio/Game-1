@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Element_Powered_Wind
   m_EditorClassIdentifier: 
   type: 8
-  prefab: {fileID: 0}
+  prefab: {fileID: 1315803612162497886, guid: 13e7d37742704b54dbeb39d00245bbfd, type: 3}
   canRespawn: 0
   combinations:
   - element2: 3
