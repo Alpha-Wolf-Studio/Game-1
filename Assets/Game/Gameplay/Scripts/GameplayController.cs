@@ -1,12 +1,24 @@
 using System;
+
 using UnityEngine;
+
+using Newtonsoft.Json;
 
 public class GameplayController : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController = null;
     [SerializeField] private GridElementController gridElementController = null;
+    [SerializeField] private TextAsset[] jsonLevels = null;
 
+    [Header("------TESTING-------")]
+    [SerializeField] private bool applyOverride = false;
+    [SerializeField] private TextAsset overrideJsonLevel = null;
+
+    private LevelData currentLevel = null;
     private bool endLevel = false;
+
+    private float timer = 0f;
+    private float targetTime = 0f;
 
     void Start()
     {
@@ -17,12 +29,38 @@ public class GameplayController : MonoBehaviour
             });
     }
 
+    private void Update()
+    {
+        UpdateTimer();
+    }
+
     private void Initialization(Action onSuccess = null)
     {
-        playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement);
-        gridElementController.Init(null, playerController, FinishLevel);
+        if (applyOverride)
+        {
+            currentLevel = JsonConvert.DeserializeObject<LevelData>(overrideJsonLevel.text);
+
+            targetTime = currentLevel.levelTime;
+        }
+
+        playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement, IsEndLevel);
+        gridElementController.Init(currentLevel, playerController, FinishLevel);
 
         onSuccess?.Invoke();
+    }
+
+    private void UpdateTimer()
+    {
+        if (endLevel)
+        {
+            return;
+        }
+
+        timer += Time.deltaTime;
+        if (timer > targetTime)
+        {
+            FinishLevel(true);
+        }
     }
 
     private void FinishLevel(bool win)
@@ -33,6 +71,12 @@ public class GameplayController : MonoBehaviour
         }
 
         endLevel = true;
+        gridElementController.EndLevel();
         playerController.ToggleInput(false);
+    }
+
+    private bool IsEndLevel()
+    {
+        return endLevel;
     }
 }

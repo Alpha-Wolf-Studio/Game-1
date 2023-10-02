@@ -654,9 +654,17 @@ PrefabInstance:
       value: Gameplay Controller
       objectReference: {fileID: 0}
     - target: {fileID: 3183421214650492190, guid: 2e9f3c2294fa5744798e972743b2896e, type: 3}
+      propertyPath: applyOverride
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183421214650492190, guid: 2e9f3c2294fa5744798e972743b2896e, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 1794622669}
+    - target: {fileID: 3183421214650492190, guid: 2e9f3c2294fa5744798e972743b2896e, type: 3}
+      propertyPath: overrideJsonLevel
+      value: 
+      objectReference: {fileID: 4900000, guid: 2eb775664a030c34fbaf471df8be89fb, type: 3}
     - target: {fileID: 3183421214650492190, guid: 2e9f3c2294fa5744798e972743b2896e, type: 3}
       propertyPath: gridElementController
       value: 

@@ -22,20 +22,16 @@ public class GridElementController : MonoBehaviour
     [SerializeField] private GameObject tilePrefab = null;
     [SerializeField] private Transform tilesHolder = null;
 
-    [Header("------TESTING-------")]
-    [SerializeField] private bool applyOverride = false;
-    [SerializeField] private TextAsset overrideJsonLevel = null;
-
     private Dictionary<ELEMENT_TYPE, ObjectPool<ElementView>> elementPoolsDict = null;
     private ElementModel[,] gridElements = null;
     private PlayerController player = null;
     private List<ElementView> elementViews = null;
-    private LevelData level;
+    private LevelData currentLevel;
 
     private Action<bool> onFinishLevel = null;
 
     #region INITIALIZATION
-    public void Init(string json, PlayerController player, Action<bool> onFinishLevel)
+    public void Init(LevelData levelLoaded, PlayerController player, Action<bool> onFinishLevel)
     {
         elementViews = new List<ElementView>();
 
@@ -44,7 +40,7 @@ public class GridElementController : MonoBehaviour
 
         CreateGrid();
         CreateElementPools();
-        StartLevel(json);
+        LoadLevel(levelLoaded);
 
         CreateTilesModels();
 
@@ -85,7 +81,7 @@ public class GridElementController : MonoBehaviour
         {
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
-                if (level.tileList[k].isAvailable)
+                if (currentLevel.tileList[k].isAvailable)
                 {
                     GameObject tileGO = Instantiate(tilePrefab, tilesHolder);
                     tileGO.transform.position = new Vector3(i * 2, 0, j * 2);
@@ -99,7 +95,8 @@ public class GridElementController : MonoBehaviour
     private void InitSpawnRandomElementsHandler()
     {
         ElementData[] respawnElements = elementsData.Where(e => e.CanRespawn).ToArray();
-        spawnRandomElementsHandler.Init(respawnElements, GetElementsWithCondition,
+
+        spawnRandomElementsHandler.Init(respawnElements, currentLevel.slimesToSpawn, currentLevel.slimesSpawnCooldown, GetElementsWithCondition,
             onSpawnElement: (elementModel) =>
             {
                 return SpawnElement(elementModel, true);
@@ -109,25 +106,14 @@ public class GridElementController : MonoBehaviour
     #endregion
 
     #region SPAWN
-    public void StartLevel(string jsonLevel)
+    private void LoadLevel(LevelData levelLoaded)
     {
-        if (applyOverride)
+        currentLevel = levelLoaded;
+
+        for (int i = 0; i < currentLevel.tileList.Count; i++)
         {
-            LoadLevel(overrideJsonLevel.text);
-            return;
-        }
-
-        LoadLevel(jsonLevel);
-    }
-
-    private void LoadLevel(string jsonLevel)
-    {
-        level = JsonConvert.DeserializeObject<LevelData>(jsonLevel);
-
-        for (int i = 0; i < level.tileList.Count; i++)
-        {
-            ELEMENT_TYPE elementType = level.tileList[i].element;
-            Vector2Int pos = level.tileList[i].gridPos;
+            ELEMENT_TYPE elementType = currentLevel.tileList[i].element;
+            Vector2Int pos = currentLevel.tileList[i].gridPos;
 
             if (elementType != ELEMENT_TYPE.EMPTY && elementType != ELEMENT_TYPE.INVALID)
             {
@@ -136,7 +122,7 @@ public class GridElementController : MonoBehaviour
                 SpawnElement(spawnElement);
             }
 
-            if (!level.tileList[i].isAvailable)
+            if (!currentLevel.tileList[i].isAvailable)
             {
                 SetElement(ELEMENT_TYPE.INVALID, pos);
             }
@@ -185,7 +171,7 @@ public class GridElementController : MonoBehaviour
         {
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
-                if (level.tileList[k].isAvailable)
+                if (currentLevel.tileList[k].isAvailable)
                 {
                     ElementModel element = gridElements[i, j];
 
@@ -229,13 +215,13 @@ public class GridElementController : MonoBehaviour
 
         if (elements.Count == 0)
         {
-            EndLevel(false);
+            onFinishLevel?.Invoke(false);
+            EndLevel();
         }
     }
 
-    private void EndLevel(bool winPlayer)
+    public void EndLevel()
     {
-        onFinishLevel?.Invoke(winPlayer);
         spawnRandomElementsHandler.ToggleTimer(false);
     }
 

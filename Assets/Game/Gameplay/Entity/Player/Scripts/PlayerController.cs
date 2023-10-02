@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Action onFinishMove = null;
     private Action<Vector2Int, Vector2Int> onMoveElement = null;
     private Func<Vector2Int, Vector2Int, bool> onCanMoveElement = null;
+    private Func<bool> onIsEndLevel = null;
 
     public ElementView ElementSelected { get => elementSelected; set => elementSelected = value; }
 
@@ -19,11 +20,12 @@ public class PlayerController : MonoBehaviour
         UpdateInputs();
     }
 
-    public void Init(Action onFinishMove, Action<Vector2Int, Vector2Int> onMoveElement, Func<Vector2Int, Vector2Int, bool> onCanMoveElement)
+    public void Init(Action onFinishMove, Action<Vector2Int, Vector2Int> onMoveElement, Func<Vector2Int, Vector2Int, bool> onCanMoveElement, Func<bool> onIsEndLevel)
     {
         this.onFinishMove = onFinishMove;
         this.onMoveElement = onMoveElement;
         this.onCanMoveElement = onCanMoveElement;
+        this.onIsEndLevel = onIsEndLevel;
     }
 
     private void SelectElement(ElementView elementView)
@@ -48,9 +50,13 @@ public class PlayerController : MonoBehaviour
             elementSelected.Move(nextPos,
                 onFinishMove: () =>
                 {
-                    ToggleInput(true);
                     onMoveElement?.Invoke(originalPos, nextPos);
                     onFinishMove?.Invoke();
+
+                    if (!onIsEndLevel())
+                    {
+                        ToggleInput(true);
+                    }
                 });
         }
     }

@@ -8,8 +8,6 @@ public class SpawnRandomElementsHandler : MonoBehaviour
 {
     [SerializeField] private Canon canon = null;
     [SerializeField] private float respawnDelay = 0f;
-    [SerializeField] private float respawnTimeTarget = 0f;
-    [SerializeField] private int respawnAmount = 0;
     [SerializeField] private float respawnPosY = 0f;
     [SerializeField] private float fallingElementTimeTarget = 0f;
 
@@ -20,6 +18,9 @@ public class SpawnRandomElementsHandler : MonoBehaviour
     private Func<Vector2Int, Vector3> onGetWorldPosition = null;
     private Action onCheckGridStatus = null;
 
+    private float respawnTimeTarget = 0f;
+    private int respawnAmount = 0;
+
     private bool startTimer = false;
     private float timer = 0f;
 
@@ -28,10 +29,12 @@ public class SpawnRandomElementsHandler : MonoBehaviour
         UpdateRespawnTimer();
     }
 
-    public void Init(ElementData[] respawnElements, Func<Predicate<ElementModel>, List<ElementModel>> onGetElementsWithCondition, 
+    public void Init(ElementData[] respawnElements, int respawnAmount, float respawnTimeTarget, Func<Predicate<ElementModel>, List<ElementModel>> onGetElementsWithCondition, 
         Func<ElementModel, ElementView> onSpawnElement, Func<Vector2Int, Vector3> onGetWorldPosition, Action onCheckGridStatus)
     {
         this.respawnElements = respawnElements;
+        this.respawnAmount = respawnAmount;
+        this.respawnTimeTarget = respawnTimeTarget;
         this.onGetElementsWithCondition = onGetElementsWithCondition;
         this.onSpawnElement = onSpawnElement;
         this.onGetWorldPosition = onGetWorldPosition;
