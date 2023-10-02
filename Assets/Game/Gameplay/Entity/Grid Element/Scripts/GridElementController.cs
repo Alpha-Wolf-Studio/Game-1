@@ -28,17 +28,19 @@ public class GridElementController : MonoBehaviour
 
     private Dictionary<ELEMENT_TYPE, ObjectPool<ElementView>> elementPoolsDict = null;
     private ElementModel[,] gridElements = null;
+    private PlayerController player = null;
     private List<ElementView> elementViews = null;
     private LevelData level;
 
     private Action<bool> onFinishLevel = null;
 
     #region INITIALIZATION
-    public void Init(Action<bool> onFinishLevel, Action StartLevel)
+    public void Init(Action<bool> onFinishLevel, Action StartLevel, PlayerController player)
     {
         elementViews = new List<ElementView>();
 
         this.onFinishLevel = onFinishLevel;
+        this.player = player;
 
         CreateGrid();
         CreateElementPools();
@@ -251,8 +253,39 @@ public class GridElementController : MonoBehaviour
 
     public void MoveElement(Vector2Int originalPos, Vector2Int nextPos)
     {
-        SetElement(GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[nextPos.x, nextPos.y].Type), new Vector2Int(nextPos.x, nextPos.y));
+        bool hasToSpawnNewElement = gridElements[nextPos.x, nextPos.y].Type != ELEMENT_TYPE.EMPTY;
+        ELEMENT_TYPE type = GetResultOfCombination(gridElements[originalPos.x, originalPos.y].Type, gridElements[nextPos.x, nextPos.y].Type);
+        SetElement(type, new Vector2Int(nextPos.x, nextPos.y));
         SetEmptyElement(originalPos);
+        if (hasToSpawnNewElement)
+        {
+
+            ElementView eleView = null;
+            foreach (ElementView element in elementViews)
+            {
+                if (element.Position == nextPos)
+                {
+                    eleView = element;
+                }
+            }
+            if (eleView)
+                ReleaseElementView(eleView);
+            foreach (ElementView element in elementViews)
+            {
+                if (element.Position == nextPos)
+                {
+                    eleView = element;
+                }
+            }
+            if (eleView)
+                ReleaseElementView(eleView);
+
+            if (type != ELEMENT_TYPE.EMPTY)
+            {
+                SpawnElement(gridElements[nextPos.x, nextPos.y], false);
+            }
+            player.ElementSelected = null;
+        }
     }
 
     private bool IsValidPosition(Vector2Int pos)

@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
     private Action<Vector2Int, Vector2Int> onMoveElement = null;
     private Func<Vector2Int, Vector2Int, bool> onCanMoveElement = null;
 
+    public ElementView ElementSelected { get => elementSelected; set => elementSelected = value; }
+
     private void Update()
     {
         UpdateInputs();
@@ -43,11 +45,11 @@ public class PlayerController : MonoBehaviour
         {
             ToggleInput(false);
 
-            onMoveElement?.Invoke(originalPos, nextPos);
             elementSelected.Move(nextPos,
                 onFinishMove: () =>
                 {
                     ToggleInput(true);
+                    onMoveElement?.Invoke(originalPos, nextPos);
                     onFinishMove?.Invoke();
                 });
         }

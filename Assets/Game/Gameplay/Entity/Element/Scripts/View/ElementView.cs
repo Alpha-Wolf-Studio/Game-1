@@ -75,6 +75,7 @@ public class ElementView : MonoBehaviour
         yield return new WaitForSeconds(endJumpDelay);
 
         onFinish?.Invoke();
+        yield return null;
     }
     #endregion
 

@@ -20,7 +20,7 @@ public class GameplayController : MonoBehaviour
     private void Initialization(Action onSuccess = null)
     {
         playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement);
-        gridElementController.Init(FinishLevel, StartLevel);
+        gridElementController.Init(FinishLevel, StartLevel,playerController);
 
         onSuccess?.Invoke();
     }
