@@ -116,7 +116,7 @@ namespace ElementMerge
                 return;
             }
 
-            levelData.level = Int32.Parse(levelID[^1].ToString());
+            levelData.level = Int32.Parse(levelID.Split('_')[^1]);
             levelData.slimesToSpawn = Int32.Parse(slimesToSpawn);
             levelData.slimesSpawnCooldown = Int32.Parse(slimesSpawnCooldown);
             levelData.levelTime = Int32.Parse(levelTime);
