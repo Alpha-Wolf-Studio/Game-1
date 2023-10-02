@@ -28,12 +28,17 @@ public class PauseManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
             {
-                if (!runningCorroutine)
-                    StartCoroutine(ShowPanel(pausePanel, panelShowTime));
-                Pause();
+                ShowPausePanel();
             }
 
         }
+    }
+
+    public void ShowPausePanel()
+    {
+        if (!runningCorroutine)
+            StartCoroutine(ShowPanel(pausePanel, panelShowTime));
+        Pause();
     }
 
     private IEnumerator ShowPanel(CanvasGroup panel, float showTime = 0)
@@ -87,6 +92,7 @@ public class PauseManager : MonoBehaviour
 
     public void ReturnToMenu()
     {
+        Time.timeScale = 1;
         UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
     }
 

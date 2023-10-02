@@ -1,6 +1,6 @@
 using CustomSceneSwitcher.Examples.Scripts;
 using System;
-
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,8 +19,9 @@ public class UiControllerLevelSelector : MonoBehaviour
 
         for (int i = 0; i < levelButtons.Length; i++)
         {
-            levelButtons[i].SetOnClickAction(() => PlayLevel(i));
-            levelButtons[i].SetLevelText(i + 1);
+            UiButton uiButton = levelButtons[i];
+            uiButton.SetOnClickAction(() => PlayLevel(uiButton));
+            uiButton.SetLevelText(i + 1);
         }
     }
 
@@ -36,9 +37,9 @@ public class UiControllerLevelSelector : MonoBehaviour
 
     private void OnLevelSelectorCloseButtonClicked() => onLevelSelectorCloseButtonClicked?.Invoke();
 
-    private void PlayLevel(int level)
+    private void PlayLevel(UiButton button)
     {
-        SceneManager.Instance.selectedLevel = level;
+        SceneManager.Instance.selectedLevel = levelButtons.ToList().FindIndex(0, (b) => b == button);
         changeSceneUI.ChangeScene();
     }
 }
