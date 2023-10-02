@@ -17,7 +17,10 @@ public class GridElementController : MonoBehaviour
     [SerializeField] private float cellDistance = 0f;
     [SerializeField] private Transform gridHolder = null;
     [SerializeField] private Transform poolHolder = null;
-    [SerializeField] private GameObject tilePrefab;
+
+    [Header("------TILES CONFIGURATION-------")]
+    [SerializeField] private GameObject tilePrefab = null;
+    [SerializeField] private Transform tilesHolder = null;
 
     [Header("------TESTING-------")]
     [SerializeField] private bool applyOverride = false;
@@ -85,7 +88,10 @@ public class GridElementController : MonoBehaviour
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
                 if (level.tileList[k].isAvailable)
-                    Instantiate(tilePrefab, new Vector3(i*2, 0, j*2),Quaternion.identity);
+                {
+                    GameObject tileGO = Instantiate(tilePrefab, tilesHolder);
+                    tileGO.transform.position = new Vector3(i * 2, 0, j * 2);
+                }
                 k++;
             }
         }
