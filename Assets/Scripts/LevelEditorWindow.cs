@@ -11,11 +11,17 @@ using UnityEditor;
 
 namespace ElementMerge
 {
+    public enum SELECTOR_MODE
+    {
+        FIELD,
+        SLIMES,
+        CONFIGURATION
+    }
     public class LevelEditorWindow : EditorWindow
     {
         private Dictionary<ELEMENT_TYPE, Color> elementColors = new Dictionary<ELEMENT_TYPE, Color>()
         {
-            { ELEMENT_TYPE.EMPTY,   new Color(0.1f,  0.1f, 0.1f     ) },
+            { ELEMENT_TYPE.EMPTY,   new Color(0.4f, 0.4f, 0.4f ) },
             { ELEMENT_TYPE.water,   new Color(0.6f,  0.77f, 1     ) },
             { ELEMENT_TYPE.WATER_POWERUP,   new Color(0.3f,  0.6f,  1     ) },
             { ELEMENT_TYPE.wind, new Color(0.75f, 0.75f, 0.75f ) },
@@ -29,11 +35,14 @@ namespace ElementMerge
         };
 
         internal string levelID = "";
+        internal string slimesToSpawn = "";
+        internal string slimesSpawnCooldown = "";
+        internal string levelTime = "";
 
         internal LevelData levelData = new();
 
         private bool isRemovingField = false;
-        private bool isFieldSelected = true;
+        private SELECTOR_MODE mode = SELECTOR_MODE.FIELD;
 
         private GUIStyle textFieldStyle;
         private GUIStyle labelStyle;
@@ -70,19 +79,23 @@ namespace ElementMerge
 
             GUILayout.Space(20);
 
-            if (isFieldSelected)
+            if (mode == SELECTOR_MODE.FIELD)
             {
                 ShowFieldSelectorPanel();
                 ShowFieldSelectedPanel();
                 GUILayout.Space(15);
                 ShowMatrixPanel();
             }
-            else
+            if (mode == SELECTOR_MODE.SLIMES)
             {
                 ShowELEMENT_TYPEelectorPanel();
                 ShowELEMENT_TYPEelectedPanel();
                 GUILayout.Space(15);
                 ShowMatrixPanel();
+            }
+            if (mode == SELECTOR_MODE.CONFIGURATION)
+            {
+                ShowConfigurationPanel();
             }
 
 
@@ -103,7 +116,10 @@ namespace ElementMerge
                 return;
             }
 
-            levelData.level = int.Parse(levelID.Split("_")[^1]);
+            levelData.level = Int32.Parse(levelID[^1].ToString());
+            levelData.slimesToSpawn = Int32.Parse(slimesToSpawn);
+            levelData.slimesSpawnCooldown = Int32.Parse(slimesSpawnCooldown);
+            levelData.levelTime = Int32.Parse(levelTime);
 
             string json = JSONSerialize(levelData);
             Debug.Log(json);
@@ -160,6 +176,10 @@ namespace ElementMerge
 
             levelData = JSONDeserialize<LevelData>(json);
 
+            levelTime = levelData.levelTime.ToString();
+            slimesSpawnCooldown = levelData.slimesSpawnCooldown.ToString();
+            slimesToSpawn = levelData.slimesToSpawn.ToString();
+
             //Debug.Log("El archivo json contiene: " + json);
 
         }
@@ -176,10 +196,10 @@ namespace ElementMerge
 
             GUILayout.FlexibleSpace();
 
-            GUI.enabled = !isFieldSelected;
+            GUI.enabled = mode != SELECTOR_MODE.FIELD;
             if (GUILayout.Button("Field", GUILayout.Width(150), GUILayout.Height(30)))
             {
-                isFieldSelected = true;
+                mode = SELECTOR_MODE.FIELD;
             }
             GUI.enabled = true;
 
@@ -188,10 +208,21 @@ namespace ElementMerge
 
             GUILayout.FlexibleSpace();
 
-            GUI.enabled = isFieldSelected;
+            GUI.enabled = mode != SELECTOR_MODE.SLIMES;
             if (GUILayout.Button("Slimes", GUILayout.Width(150), GUILayout.Height(30)))
             {
-                isFieldSelected = false;
+                mode = SELECTOR_MODE.SLIMES;
+            }
+            GUI.enabled = true;
+
+            GUILayout.FlexibleSpace();
+
+            GUILayout.FlexibleSpace();
+
+            GUI.enabled = mode != SELECTOR_MODE.CONFIGURATION;
+            if (GUILayout.Button("Configuration", GUILayout.Width(150), GUILayout.Height(30)))
+            {
+                mode = SELECTOR_MODE.CONFIGURATION;
             }
             GUI.enabled = true;
 
@@ -410,7 +441,7 @@ namespace ElementMerge
             foreach (Tile t in levelData.tileList)
             {
                 tileCounter++;
-                if (!isFieldSelected)
+                if (mode == SELECTOR_MODE.SLIMES)
                 {
                     string panelText = GetElementInitial(t.element);
                     GUIStyle panelStyle = GetELEMENT_TYPEtyle(t.element, buttonSize);
@@ -428,7 +459,7 @@ namespace ElementMerge
                         GUI.enabled = true;
                     }
                 }
-                else
+                if (mode == SELECTOR_MODE.FIELD)
                 {
                     GUIStyle panelStyle = GetFieldStyle(t.isAvailable);
 
@@ -457,7 +488,7 @@ namespace ElementMerge
 
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            if (!isFieldSelected)
+            if (mode == SELECTOR_MODE.SLIMES)
             {
                 if (GUILayout.Button("Resetear Nivel", GUILayout.Height(30)))
                 {
@@ -471,7 +502,7 @@ namespace ElementMerge
                     }
                 }
             }
-            else
+            if (mode == SELECTOR_MODE.FIELD)
             {
                 if (GUILayout.Button("LLenar Todo", GUILayout.Height(30)))
                 {
@@ -498,6 +529,46 @@ namespace ElementMerge
             }
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
+        }
+        private void ShowConfigurationPanel()
+        {
+            GUIStyle configLabelStyle = new GUIStyle(EditorStyles.label);
+            configLabelStyle.alignment = TextAnchor.MiddleLeft;
+            configLabelStyle.fontSize = 20;
+            configLabelStyle.normal.textColor = Color.cyan;
+
+            GUIStyle configTFStyle = new GUIStyle(EditorStyles.textField);
+            configTFStyle.alignment = TextAnchor.MiddleCenter;
+            configTFStyle.fontSize = 20;
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Slime Spawn Count", configLabelStyle,  GUILayout.Height(30), GUILayout.MinWidth(200));
+            slimesToSpawn = EditorGUILayout.TextField(slimesToSpawn, configTFStyle, GUILayout.Height(30), GUILayout.Width(100));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Spawn Cooldown ", configLabelStyle,  GUILayout.Height(30), GUILayout.MinWidth(200));
+            slimesSpawnCooldown = EditorGUILayout.TextField(slimesSpawnCooldown, configTFStyle, GUILayout.Height(30), GUILayout.Width(100));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Level Time", configLabelStyle,  GUILayout.Height(30), GUILayout.MinWidth(200));
+            levelTime = EditorGUILayout.TextField(levelTime, configTFStyle, GUILayout.Height(30), GUILayout.Width(100));
+            GUILayout.EndHorizontal();
+
+
+            GUILayout.BeginHorizontal();
+            GUILayout.FlexibleSpace();
+            if (GUILayout.Button("Resetear", GUILayout.Height(30)))
+            {
+                GUI.FocusControl("");
+                slimesToSpawn = "";
+                slimesSpawnCooldown = "";
+                levelTime = "";
+            }
+            GUILayout.FlexibleSpace();
+            GUILayout.EndHorizontal();
+
         }
         #endregion
 
@@ -528,7 +599,7 @@ namespace ElementMerge
             GUIStyle estilo = new GUIStyle(GUI.skin.button);
             if (isPanelOn)
             {
-                estilo.normal.background = GetTextureColor(elementColors[ELEMENT_TYPE.EMPTY]);
+                estilo.normal.background = GetTextureColor(elementColors[ELEMENT_TYPE.DIRT_POWERUP]);
             }
 
             return estilo;
@@ -546,11 +617,11 @@ namespace ElementMerge
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    if (isFieldSelected)
+                    if (mode == SELECTOR_MODE.FIELD)
                     {
                         levelData.tileList[i * 9 + j].isAvailable = true;
                     }
-                    else
+                    if (mode == SELECTOR_MODE.SLIMES)
                     {
                         if (levelData.tileList[i * 9 + j].isAvailable)
                         {

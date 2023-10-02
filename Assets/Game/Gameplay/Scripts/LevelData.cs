@@ -7,6 +7,9 @@ using UnityEngine;
 public class LevelData
 {
     public int level = 0;
+    public int slimesToSpawn = 0;
+    public int slimesSpawnCooldown = 0;
+    public int levelTime = 0;
     public List<Tile> tileList = new List<Tile>();
 }
 
