@@ -103,7 +103,7 @@ namespace ElementMerge
                 return;
             }
 
-            levelData.level = Int32.Parse(levelID[^1].ToString());
+            levelData.level = int.Parse(levelID.Split("_")[^1]);
 
             string json = JSONSerialize(levelData);
             Debug.Log(json);
