@@ -15,7 +15,7 @@ namespace ElementMerge
     {
         private Dictionary<ELEMENT_TYPE, Color> elementColors = new Dictionary<ELEMENT_TYPE, Color>()
         {
-            { ELEMENT_TYPE.EMPTY,   Color.white },
+            { ELEMENT_TYPE.EMPTY,   new Color(0.1f,  0.1f, 0.1f     ) },
             { ELEMENT_TYPE.water,   new Color(0.6f,  0.77f, 1     ) },
             { ELEMENT_TYPE.WATER_POWERUP,   new Color(0.3f,  0.6f,  1     ) },
             { ELEMENT_TYPE.wind, new Color(0.75f, 0.75f, 0.75f ) },
