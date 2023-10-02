@@ -41,10 +41,12 @@ public class GridElementController : MonoBehaviour
         this.onFinishLevel = onFinishLevel;
 
         CreateGrid();
-        StartLevel();
         CreateElementPools();
+        StartLevel.Invoke();
+
         CreateElementModels();
         CreateTilesModels();
+
         InitSpawnRandomElementsHandler();
     }
 
@@ -73,7 +75,7 @@ public class GridElementController : MonoBehaviour
         {
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
-                if(level.tileList[k].isAvailable)
+                if (level.tileList[k].isAvailable)
                     SetEmptyElement(new Vector2Int(i, j));
                 k++;
             }
