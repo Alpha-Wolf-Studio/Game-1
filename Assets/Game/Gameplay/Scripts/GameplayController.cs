@@ -4,11 +4,14 @@ using UnityEngine;
 
 using Newtonsoft.Json;
 
+using TMPro;
+
 public class GameplayController : MonoBehaviour
 {
     [SerializeField] private PlayerController playerController = null;
     [SerializeField] private GridElementController gridElementController = null;
     [SerializeField] private TextAsset[] jsonLevels = null;
+    [SerializeField] private TMP_Text timerText = null;
 
     [Header("------TESTING-------")]
     [SerializeField] private bool applyOverride = false;
@@ -46,7 +49,7 @@ public class GameplayController : MonoBehaviour
             currentLevel = JsonConvert.DeserializeObject<LevelData>(jsonLevels[selectedLevelIndex].text);
         }
 
-        targetTime = currentLevel.levelTime;
+        timer = currentLevel.levelTime;
 
         gridElementController.Init(currentLevel, playerController, FinishLevel);
         playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement, IsEndLevel);
@@ -61,11 +64,16 @@ public class GameplayController : MonoBehaviour
             return;
         }
 
-        timer += Time.deltaTime;
-        if (timer > targetTime)
+        timer -= Time.deltaTime;
+        if (timer < 0f)
         {
+            timer = 0f;
             FinishLevel(true);
         }
+
+        int seconds = (int)timer % 60;
+        int minutes = (int)timer / 60;
+        timerText.text = minutes + ":" + seconds;
     }
 
     private void FinishLevel(bool win)
