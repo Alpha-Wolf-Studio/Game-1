@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,6 +6,7 @@ public class UiScreenMainMenu : MonoBehaviour
     [SerializeField] private UiControllerMainMenu controllerMainMenu;
     [SerializeField] private UiControllerSettings controllerSettings;
     [SerializeField] private UiControllerCredits controllerCredits;
+    [SerializeField] private UiControllerLevelSelector controllerLevelSelector;
     [SerializeField] private AnimationCurve animationCurve;
     [SerializeField] private float durationFade = 1.0f;
 
@@ -14,11 +14,12 @@ public class UiScreenMainMenu : MonoBehaviour
 
     private void Awake ()
     {
-        controllerMainMenu.onPlayButtonClicked += ControllerMainMenu_onPlayButtonClicked;
+        controllerMainMenu.onPlayButtonClicked += ControllerMainMenu_onLevelSelectorButtonClicked;
         controllerMainMenu.onSettingsButtonClicked += ControllerMainMenu_onSettingsButtonClicked;
         controllerMainMenu.onCreditsButtonClicked += ControllerMainMenu_onCreditsButtonClicked;
         controllerSettings.onSettingsCloseButtonClicked += ControllerSettings_onSettingsCloseButtonClicked;
         controllerCredits.onCreditsCloseButtonClicked += ControllerCredits_onCreditsCloseButtonClicked;
+        controllerLevelSelector.onLevelSelectorCloseButtonClicked += ControllerLevelSelector_onLevelSelectorCloseButtonClicked;
     }
 
     private void Start ()
@@ -26,25 +27,23 @@ public class UiScreenMainMenu : MonoBehaviour
         SetPanel(controllerMainMenu.canvasGroup, true);
         SetPanel(controllerSettings.canvasGroup, false);
         SetPanel(controllerCredits.canvasGroup, false);
+        SetPanel(controllerLevelSelector.canvasGroup, false);
     }
 
     private void OnDestroy ()
     {
-        controllerMainMenu.onPlayButtonClicked -= ControllerMainMenu_onPlayButtonClicked;
+        controllerMainMenu.onPlayButtonClicked -= ControllerMainMenu_onLevelSelectorButtonClicked;
         controllerMainMenu.onSettingsButtonClicked -= ControllerMainMenu_onSettingsButtonClicked;
         controllerMainMenu.onCreditsButtonClicked -= ControllerMainMenu_onCreditsButtonClicked;
         controllerSettings.onSettingsCloseButtonClicked -= ControllerSettings_onSettingsCloseButtonClicked;
         controllerCredits.onCreditsCloseButtonClicked -= ControllerCredits_onCreditsCloseButtonClicked;
-    }
-
-    private void ControllerMainMenu_onPlayButtonClicked ()
-    {
-        throw new NotImplementedException();
+        controllerLevelSelector.onLevelSelectorCloseButtonClicked -= ControllerLevelSelector_onLevelSelectorCloseButtonClicked;
     }
 
     private void ControllerMainMenu_onSettingsButtonClicked () => SwitchController(durationFade, controllerSettings.canvasGroup, controllerMainMenu.canvasGroup);
 
     private void ControllerMainMenu_onCreditsButtonClicked () => SwitchController(durationFade, controllerCredits.canvasGroup, controllerMainMenu.canvasGroup);
+    private void ControllerMainMenu_onLevelSelectorButtonClicked() => SwitchController(durationFade, controllerLevelSelector.canvasGroup, controllerMainMenu.canvasGroup);
 
     private void ControllerMainMenu_onExitButtonClicked ()
     {
@@ -60,6 +59,8 @@ public class UiScreenMainMenu : MonoBehaviour
     private void ControllerCredits_onCreditsCloseButtonClicked () => SwitchController(durationFade, controllerMainMenu.canvasGroup, controllerCredits.canvasGroup);
 
     private void ControllerSettings_onSettingsCloseButtonClicked () => SwitchController(durationFade, controllerMainMenu.canvasGroup, controllerSettings.canvasGroup);
+
+    private void ControllerLevelSelector_onLevelSelectorCloseButtonClicked() => SwitchController(durationFade, controllerMainMenu.canvasGroup, controllerLevelSelector.canvasGroup);
 
     private void SwitchController (float duration, CanvasGroup on, CanvasGroup off)
     {
