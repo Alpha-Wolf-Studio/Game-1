@@ -38,9 +38,10 @@ public class GridElementController : MonoBehaviour
         this.onFinishLevel = onFinishLevel;
         this.player = player;
 
+        GetLevelData(levelLoaded);
         CreateGrid();
         CreateElementPools();
-        LoadLevel(levelLoaded);
+        LoadLevel();
 
         CreateTilesModels();
 
@@ -64,11 +65,20 @@ public class GridElementController : MonoBehaviour
     {
         gridElements = new ElementModel[size.x, size.y];
 
+        int k = 0;
         for (int i = 0; i < gridElements.GetLength(0); i++)
         {
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
-                SetEmptyElement(new Vector2Int(i, j));
+                if (currentLevel.tileList[k].isAvailable)
+                {
+                    SetEmptyElement(new Vector2Int(j, i));
+                }
+                else
+                {
+                    SetInvalidElement(new Vector2Int(j, i));
+                }
+                k++;
             }
         }
     }
@@ -84,7 +94,7 @@ public class GridElementController : MonoBehaviour
                 if (currentLevel.tileList[k].isAvailable)
                 {
                     GameObject tileGO = Instantiate(tilePrefab, tilesHolder);
-                    tileGO.transform.position = new Vector3(i * 2, 0, j * 2);
+                    tileGO.transform.position = new Vector3(j * 2, 0, i * 2);
                 }
 
                 k++;
@@ -106,10 +116,13 @@ public class GridElementController : MonoBehaviour
     #endregion
 
     #region SPAWN
-    private void LoadLevel(LevelData levelLoaded)
+    private void GetLevelData(LevelData levelLoaded)
     {
         currentLevel = levelLoaded;
+    }
 
+    private void LoadLevel()
+    {
         for (int i = 0; i < currentLevel.tileList.Count; i++)
         {
             ELEMENT_TYPE elementType = currentLevel.tileList[i].element;
@@ -122,10 +135,10 @@ public class GridElementController : MonoBehaviour
                 SpawnElement(spawnElement);
             }
 
-            if (!currentLevel.tileList[i].isAvailable)
-            {
-                SetElement(ELEMENT_TYPE.INVALID, pos);
-            }
+            //if (!currentLevel.tileList[i].isAvailable)
+            //{
+            //    SetElement(ELEMENT_TYPE.INVALID, pos);
+            //}
         }
     }
 
@@ -150,6 +163,11 @@ public class GridElementController : MonoBehaviour
     private void SetEmptyElement(Vector2Int pos)
     {
         SetElement(ELEMENT_TYPE.EMPTY, new Vector2Int(pos.x, pos.y));
+    }
+
+    private void SetInvalidElement(Vector2Int pos)
+    {
+        SetElement(ELEMENT_TYPE.INVALID, new Vector2Int(pos.x, pos.y));
     }
 
     public void UpdatePlayerElementMove()

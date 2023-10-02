@@ -43,8 +43,8 @@ public class GameplayController : MonoBehaviour
             targetTime = currentLevel.levelTime;
         }
 
-        playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement, IsEndLevel);
         gridElementController.Init(currentLevel, playerController, FinishLevel);
+        playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement, IsEndLevel);
 
         onSuccess?.Invoke();
     }

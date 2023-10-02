@@ -26,3 +26,7 @@ MonoBehaviour:
     result: 10
   - element2: 0
     result: 1
+  - element2: 6
+    result: 2
+  - element2: 7
+    result: 3
