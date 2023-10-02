@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f64ed45910d2d5a4182977771328c3ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canon: {fileID: 0}
+  respawnDelay: 0.5
   respawnTimeTarget: 15
   respawnAmount: 3
   respawnPosY: 15

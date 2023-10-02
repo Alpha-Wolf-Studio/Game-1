@@ -1,10 +1,13 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
 
 public class SpawnRandomElementsHandler : MonoBehaviour
 {
+    [SerializeField] private Canon canon = null;
+    [SerializeField] private float respawnDelay = 0f;
     [SerializeField] private float respawnTimeTarget = 0f;
     [SerializeField] private int respawnAmount = 0;
     [SerializeField] private float respawnPosY = 0f;
@@ -54,7 +57,7 @@ public class SpawnRandomElementsHandler : MonoBehaviour
         {
             ToggleTimer(false);
 
-            RespawnElements();
+            PlayShootCanon();
             RestartRespawnTimer();
         }
     }
@@ -63,6 +66,19 @@ public class SpawnRandomElementsHandler : MonoBehaviour
     {
         timer = 0f;
         ToggleTimer(true);
+    }
+
+    private void PlayShootCanon()
+    {
+        canon.Shoot();
+        StartCoroutine(RespawnDelay());
+
+        IEnumerator RespawnDelay()
+        {
+            yield return new WaitForSeconds(respawnDelay);
+
+            RespawnElements();
+        }
     }
 
     private void RespawnElements()
