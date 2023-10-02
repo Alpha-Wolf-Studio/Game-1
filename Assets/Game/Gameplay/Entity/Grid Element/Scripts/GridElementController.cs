@@ -35,7 +35,7 @@ public class GridElementController : MonoBehaviour
     private Action<bool> onFinishLevel = null;
 
     #region INITIALIZATION
-    public void Init(Action<bool> onFinishLevel, Action StartLevel, PlayerController player)
+    public void Init(string json, PlayerController player, Action<bool> onFinishLevel)
     {
         elementViews = new List<ElementView>();
 
@@ -44,9 +44,8 @@ public class GridElementController : MonoBehaviour
 
         CreateGrid();
         CreateElementPools();
-        StartLevel.Invoke();
+        StartLevel(json);
 
-        CreateElementModels();
         CreateTilesModels();
 
         InitSpawnRandomElementsHandler();
@@ -68,18 +67,12 @@ public class GridElementController : MonoBehaviour
     private void CreateGrid()
     {
         gridElements = new ElementModel[size.x, size.y];
-    }
 
-    private void CreateElementModels()
-    {
-        int k = 0;
         for (int i = 0; i < gridElements.GetLength(0); i++)
         {
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
-                if (level.tileList[k].isAvailable)
-                    SetEmptyElement(new Vector2Int(i, j));
-                k++;
+                SetEmptyElement(new Vector2Int(i, j));
             }
         }
     }
@@ -87,6 +80,7 @@ public class GridElementController : MonoBehaviour
     private void CreateTilesModels()
     {
         int k = 0;
+
         for (int i = 0; i < gridElements.GetLength(0); i++)
         {
             for (int j = 0; j < gridElements.GetLength(1); j++)
@@ -96,6 +90,7 @@ public class GridElementController : MonoBehaviour
                     GameObject tileGO = Instantiate(tilePrefab, tilesHolder);
                     tileGO.transform.position = new Vector3(i * 2, 0, j * 2);
                 }
+
                 k++;
             }
         }
@@ -132,13 +127,18 @@ public class GridElementController : MonoBehaviour
         for (int i = 0; i < level.tileList.Count; i++)
         {
             ELEMENT_TYPE elementType = level.tileList[i].element;
+            Vector2Int pos = level.tileList[i].gridPos;
 
-            if (elementType != ELEMENT_TYPE.EMPTY)
+            if (elementType != ELEMENT_TYPE.EMPTY && elementType != ELEMENT_TYPE.INVALID)
             {
-                Vector2Int pos = level.tileList[i].gridPos;
                 ElementModel spawnElement = new ElementModel(elementType, pos);
 
                 SpawnElement(spawnElement);
+            }
+
+            if (!level.tileList[i].isAvailable)
+            {
+                SetElement(ELEMENT_TYPE.INVALID, pos);
             }
         }
     }
