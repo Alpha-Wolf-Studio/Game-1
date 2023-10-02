@@ -26,16 +26,19 @@ public class GridElementController : MonoBehaviour
     private Dictionary<ELEMENT_TYPE, ObjectPool<ElementView>> elementPoolsDict = null;
     private ElementModel[,] gridElements = null;
     private List<ElementView> elementViews = null;
+    private LevelData level;
 
     private Action<bool> onFinishLevel = null;
 
     #region INITIALIZATION
-    public void Init(Action<bool> onFinishLevel)
+    public void Init(Action<bool> onFinishLevel, Action StartLevel)
     {
         elementViews = new List<ElementView>();
 
         this.onFinishLevel = onFinishLevel;
 
+        CreateGrid();
+        StartLevel();
         CreateElementPools();
         CreateElementModels();
         CreateTilesModels();
@@ -55,26 +58,35 @@ public class GridElementController : MonoBehaviour
         }
     }
 
-    private void CreateElementModels()
+    private void CreateGrid()
     {
         gridElements = new ElementModel[size.x, size.y];
+    }
 
+    private void CreateElementModels()
+    {
+        int k = 0;
         for (int i = 0; i < gridElements.GetLength(0); i++)
         {
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
-                SetEmptyElement(new Vector2Int(i, j));
+                if(level.tileList[k].isAvailable)
+                    SetEmptyElement(new Vector2Int(i, j));
+                k++;
             }
         }
     }
 
     private void CreateTilesModels()
     {
+        int k = 0;
         for (int i = 0; i < gridElements.GetLength(0); i++)
         {
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
-                Instantiate(tilePrefab, new Vector3(i*2, 0, j*2),Quaternion.identity);
+                if (level.tileList[k].isAvailable)
+                    Instantiate(tilePrefab, new Vector3(i*2, 0, j*2),Quaternion.identity);
+                k++;
             }
         }
     }
@@ -105,7 +117,7 @@ public class GridElementController : MonoBehaviour
 
     private void LoadLevel(string jsonLevel)
     {
-        LevelData level = JsonConvert.DeserializeObject<LevelData>(jsonLevel);
+        level = JsonConvert.DeserializeObject<LevelData>(jsonLevel);
 
         for (int i = 0; i < level.tileList.Count; i++)
         {
@@ -158,16 +170,21 @@ public class GridElementController : MonoBehaviour
     {
         List<ElementModel> elements = new List<ElementModel>();
 
+        int k = 0;
         for (int i = 0; i < gridElements.GetLength(0); i++)
         {
             for (int j = 0; j < gridElements.GetLength(1); j++)
             {
-                ElementModel element = gridElements[i, j];
-
-                if (condition == null || condition(element))
+                if (level.tileList[k].isAvailable)
                 {
-                    elements.Add(element);
+                    ElementModel element = gridElements[i, j];
+
+                    if (condition == null || condition(element))
+                    {
+                        elements.Add(element);
+                    }
                 }
+                k++;
             }
         }
 

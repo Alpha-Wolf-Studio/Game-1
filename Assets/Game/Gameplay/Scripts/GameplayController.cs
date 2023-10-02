@@ -13,7 +13,6 @@ public class GameplayController : MonoBehaviour
         Initialization(
             onSuccess: () =>
             {
-                StartLevel();
                 playerController.ToggleInput(true);
             });
     }
@@ -21,7 +20,7 @@ public class GameplayController : MonoBehaviour
     private void Initialization(Action onSuccess = null)
     {
         playerController.Init(gridElementController.UpdatePlayerElementMove, gridElementController.MoveElement, gridElementController.CanMoveElement);
-        gridElementController.Init(FinishLevel);
+        gridElementController.Init(FinishLevel, StartLevel);
 
         onSuccess?.Invoke();
     }
