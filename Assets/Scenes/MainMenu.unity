@@ -5907,8 +5907,8 @@ MonoBehaviour:
     Rodriguez\nJuan Ignacio Ranedo\nMicaela Acosta\nNicol\xE1s Jimenez Lamberti\n\nGD\nFederico
     Delgado\nGoran Blazevich\n\nSFX & MUSIC\nManuel Roca Tudela\nRaul Jutco"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 1476a3e4c3e8f5942a3a23c39054dd52, type: 2}
+  m_sharedMaterial: {fileID: -5588569050607927918, guid: 1476a3e4c3e8f5942a3a23c39054dd52, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
