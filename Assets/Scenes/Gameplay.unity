@@ -2396,7 +2396,7 @@ PrefabInstance:
       objectReference: {fileID: 163545001}
     - target: {fileID: 3183421214650492190, guid: 2e9f3c2294fa5744798e972743b2896e, type: 3}
       propertyPath: applyOverride
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3183421214650492190, guid: 2e9f3c2294fa5744798e972743b2896e, type: 3}
       propertyPath: playerController
@@ -2405,7 +2405,7 @@ PrefabInstance:
     - target: {fileID: 3183421214650492190, guid: 2e9f3c2294fa5744798e972743b2896e, type: 3}
       propertyPath: overrideJsonLevel
       value: 
-      objectReference: {fileID: 4900000, guid: 8daeb3f7b2a4400438d3fc6582f41c61, type: 3}
+      objectReference: {fileID: 4900000, guid: e0cddd2875b29a8419368f41d10828cc, type: 3}
     - target: {fileID: 3183421214650492190, guid: 2e9f3c2294fa5744798e972743b2896e, type: 3}
       propertyPath: endGameUiController
       value: 
