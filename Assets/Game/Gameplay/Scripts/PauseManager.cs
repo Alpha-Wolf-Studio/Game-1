@@ -8,6 +8,7 @@ public class PauseManager : MonoBehaviour
 {
     [SerializeField] private CanvasGroup pausePanel = null;
     [SerializeField] private CanvasGroup optionsPanel = null;
+    [SerializeField] private CanvasGroup gamePlayPanel = null;
 
     [SerializeField] private float panelShowTime = 1;
     [SerializeField] private float panelHideTime = 1;
@@ -18,26 +19,16 @@ public class PauseManager : MonoBehaviour
 
     private void Start()
     {
-        ResetPanel(pausePanel);
-        ResetPanel(optionsPanel);
-    }
-
-    private void Update()
-    {
-        if (!IsPaused)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
-            {
-                ShowPausePanel();
-            }
-
-        }
+        TurnOffPanel(pausePanel);
+        TurnOffPanel(optionsPanel);
     }
 
     public void ShowPausePanel()
     {
         if (!runningCorroutine)
             StartCoroutine(ShowPanel(pausePanel, panelShowTime));
+
+        TurnOffPanel(gamePlayPanel);
         Pause();
     }
 
@@ -55,9 +46,7 @@ public class PauseManager : MonoBehaviour
             }
         }
 
-        panel.alpha = 1;
-        panel.blocksRaycasts = true;
-        panel.interactable = true;
+        TurnOnPanel(panel);
         runningCorroutine = false;
     }
 
@@ -75,19 +64,26 @@ public class PauseManager : MonoBehaviour
             }
         }
 
-        ResetPanel(panel);
+        TurnOffPanel(panel);
         runningCorroutine = false;
         if (panel == pausePanel)
         {
             UnPause();
+            TurnOnPanel(gamePlayPanel);
         }
     }
 
-    private void ResetPanel(CanvasGroup panel)
+    private void TurnOffPanel(CanvasGroup panel)
     {
         panel.alpha = 0;
         panel.blocksRaycasts = false;
         panel.interactable = false;
+    }
+    private void TurnOnPanel(CanvasGroup panel)
+    {
+        panel.alpha = 1;
+        panel.blocksRaycasts = true;
+        panel.interactable = true;
     }
 
     public void ReturnToMenu()

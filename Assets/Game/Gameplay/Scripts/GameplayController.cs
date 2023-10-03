@@ -12,6 +12,8 @@ public class GameplayController : MonoBehaviour
     [SerializeField] private GridElementController gridElementController = null;
     [SerializeField] private TextAsset[] jsonLevels = null;
     [SerializeField] private TMP_Text timerText = null;
+    [SerializeField] private EndGameUIController endGameUiController = null;
+
 
     [Header("------TESTING-------")]
     [SerializeField] private bool applyOverride = false;
@@ -78,9 +80,15 @@ public class GameplayController : MonoBehaviour
 
     private void FinishLevel(bool win)
     {
-        if (endLevel)
+
+        if (win)
         {
+            endGameUiController.ShowWinScreen();
             return;
+        }
+        else
+        {
+            endGameUiController.ShowLoseScreen();
         }
 
         endLevel = true;
